@@ -85,7 +85,7 @@ X_train, y_train = load_and_limit_train_data(P)
 from sklearn.svm import SVC
 
 # %%
-model = SVC(C=0.1, kernel="linear", probability=True)
+model = SVC(C=1.0, kernel="linear", probability=True)
 
 model.fit(X_train, y_train)
 
