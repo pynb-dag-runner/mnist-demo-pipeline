@@ -40,8 +40,12 @@ jobs:
                   static_builder \
                       --github_repository $GITHUB_REPOSITORY \
                       --output_dir /github_workspace/www-root/pipeline-artifacts/ \
-                      --output_static_mlflow_data /github_workspace/ui_static_data.js; \
+                      --output_static_data_json /github_workspace/ui_static_data.json; \
               "
+
+          # Make .js version of static data
+          echo "export const STATIC_DATA = " >  /github_workspace/ui_static_data.js
+          cat  ui_static_data.json           >> /github_workspace/ui_static_data.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -58,12 +62,13 @@ jobs:
           ref: static_mlflow
 
       # export static ui data (for easier offline debugging)
-      - name: "Store ui_static_data.js with data for UI"
+      - name: "Store ui_static_data.json with data for UI"
         uses: actions/upload-artifact@v2
         with:
           name: ui-static-data
           path: |
               ${{ github.workspace }}/ui_static_data.js
+              ${{ github.workspace }}/ui_static_data.json
           if-no-files-found: error
           retention-days: 5
 
@@ -78,6 +83,10 @@ jobs:
           make docker-build-image-for-build-static-ui
           make docker-build-static-ui
           cp -r build/. ${{ github.workspace }}/www-root
+
+          cp ${{ github.workspace }}/ui_static_data.json \
+             ${{ github.workspace }}/www-root/
+
 
       ###
       ### Deploy
