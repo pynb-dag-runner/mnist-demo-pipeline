@@ -45,8 +45,8 @@ jobs:
               "
 
           # Make .js version of static data
-          echo "export const STATIC_DATA = " >  /github_workspace/ui_static_data.js
-          cat  ui_static_data.json           >> /github_workspace/ui_static_data.js
+          echo "export const STATIC_DATA = " >  ${{ github.workspace }}/ui_static_data.js
+          cat  ui_static_data.json           >> ${{ github.workspace }}/ui_static_data.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
