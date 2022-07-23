@@ -16,6 +16,7 @@ jobs:
         with:
           repository: pynb-dag-runner/pynb-dag-runner
           path: pynb-dag-runner-repo
+          ref: static_builder_output_static_json
           persist-credentials: true
 
       - name: "Build Docker file"
