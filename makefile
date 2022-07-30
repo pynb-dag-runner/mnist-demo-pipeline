@@ -83,6 +83,7 @@ test-and-run-pipeline:
 	    COMMAND="( \
 	        cd common; \
 	        make install; \
+	        make test-pytest test-mypy test-black; \
 	        make clean; \
 	    ) && ( \
 	        cd mnist-demo-pipeline; \

@@ -7,13 +7,13 @@
 #  - https://docs.microsoft.com/en-us/azure/azure-sql-edge/deploy-onnx
 protobuf==3.16.0
 onnx==1.10.1
-skl2onnx==1.9.3
-onnxruntime==1.9.0
+skl2onnx==1.11.2
+onnxruntime==1.12.0
 
 #
-scikit-learn==0.23.2
-pandas==1.3.5
-matplotlib==3.5.1
+scikit-learn==1.1.1
+pandas==1.4.3
+matplotlib==3.5.2
 
 # libraries for running unit and static tests on code
 pytest==6.2.5
