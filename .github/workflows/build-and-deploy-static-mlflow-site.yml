@@ -43,10 +43,6 @@ jobs:
                       --output_static_data_json /github_workspace/ui_static_data.json; \
               "
 
-          # Make .js version of static data
-          echo "export const STATIC_DATA = "                >   ${{ github.workspace }}/ui_static_data.js
-          cat  ${{ github.workspace }}/ui_static_data.json  >>  ${{ github.workspace }}/ui_static_data.js
-          echo ";"                                          >>  ${{ github.workspace }}/ui_static_data.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -68,7 +64,6 @@ jobs:
         with:
           name: ui-static-data
           path: |
-              ${{ github.workspace }}/ui_static_data.js
               ${{ github.workspace }}/ui_static_data.json
           if-no-files-found: error
           retention-days: 5
@@ -77,10 +72,6 @@ jobs:
         working-directory: ${{ github.workspace }}/mlflow-repo/mlflow/server/js
         shell: bash
         run: |
-          # copy static pipeline-task-run into ui-source directory
-          cp ${{ github.workspace }}/ui_static_data.js \
-             ./src/experiment-tracking/static-data/StaticData.js
-
           make docker-build-image-for-build-static-ui
           make docker-build-static-ui
           cp -r build/. ${{ github.workspace }}/www-root
