@@ -1,0 +1,3 @@
+[submodule "pynb-dag-runner"]
+	path = pynb-dag-runner
+	url = https://github.com/pynb-dag-runner/pynb-dag-runner.git
