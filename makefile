@@ -4,11 +4,7 @@ SHELL := /bin/bash
 RUN_ENVIRONMENT ?= "dev"
 
 docker-build-all:
-	# For now manually build wheel file for pynb-dag-runner library dependency
-	(cd pynb-dag-runner; \
-	    make clean; make docker-build-all; make build)
-
-	# Build docker images for mnist-demo-pipeline
+	# Build docker images for running mnist-demo-pipeline
 	(cd docker; make \
 	    build-base-env-docker-image \
 	    build-cicd-env-docker-image \

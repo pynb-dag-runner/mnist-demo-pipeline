@@ -19,3 +19,6 @@ matplotlib==3.5.2
 pytest==6.2.5
 black==22.3.0
 mypy==0.931
+
+#
+pynb-dag-runner==0.0.6

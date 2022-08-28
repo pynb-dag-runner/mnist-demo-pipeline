@@ -6,11 +6,6 @@ FROM mnist-demo-pipeline-base
 COPY docker/requirements.ci.txt /home/host_user/
 RUN pip3 install --user -r /home/host_user/requirements.ci.txt
 
-# Install pynb-dag-runner library
-COPY pynb-dag-runner/workspace/pynb_dag_runner/dist/pynb_dag_runner-*-py3-none-any.whl \
-     /home/host_user/
-RUN pip3 install --user /home/host_user/pynb_dag_runner-*-py3-none-any.whl
-
 ENV MYPY_CACHE_DIR=/home/host_user/.cache/mypy
 RUN mkdir -p $MYPY_CACHE_DIR
 
