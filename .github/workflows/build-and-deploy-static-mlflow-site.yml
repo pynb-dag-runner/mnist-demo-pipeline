@@ -12,6 +12,10 @@ jobs:
     name: Build and deploy static website
     runs-on: ubuntu-20.04
     steps:
+      # v ------- This block fetches all logs and builds assets for static UI ---------v
+
+      # This should be refactored into a separate Github action
+
       - uses: actions/checkout@v3
         with:
           repository: pynb-dag-runner/pynb-dag-runner
@@ -40,58 +44,53 @@ jobs:
                   static_builder \
                       --github_repository $GITHUB_REPOSITORY \
                       --output_dir /github_workspace/www-root/pipeline-artifacts/ \
-                      --output_static_data_json /github_workspace/ui_static_data.json; \
+                      --output_static_data_json /github_workspace/www-root/ui_static_data.json; \
               "
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      ###
-      ### Make static ML Flow
-      ###
-      - uses: actions/checkout@v3
-        with:
-          repository: pynb-dag-runner/mlflow
-          persist-credentials: true
-          path: mlflow-repo
-          # replace below with feature branch of `mlflow` repo for testing new
-          # UI features using logs from this repo
-          ref: static_mlflow
+      - name: "pip install package with static assets for web front end"
+        working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
+        # ^-- this directory is where makefile is located
+        shell: bash
+        run: |
+          make docker-run-command \
+              DOCKER_RUN_ARGS="\
+                  --volume ${{ github.workspace }}:/github_workspace \
+              " \
+              COMMAND="\
+                  cd /github_workspace; \
+                  pip install pynb_dag_runner_webui \
+                      --target pynb_dag_runner_webui; \
+                  cp -r \
+                      /github_workspace/pynb_dag_runner_webui/assets/. \
+                      /github_workspace/www-root/; \
+                  : ; \
+                  : Github Pages does not allow directory listing. Add files \
+                  : for troubleshooting; \
+                  cd /github_workspace/www-root/; \
+                  find . > list_all_files.txt; \
+                  du -hs * > disk_usage.txt; \
+              "
 
-      # export static ui data (for easier offline debugging)
-      - name: "Store ui_static_data.json with data for UI"
+      # ^ ------- This block fetches all logs and builds assets for static UI ---------^
+
+      - name: "debug: Store ui_static_data.json with data for UI"
         uses: actions/upload-artifact@v2
         with:
           name: ui-static-data
           path: |
-              ${{ github.workspace }}/ui_static_data.json
+              ${{ github.workspace }}/www-root/ui_static_data.json
           if-no-files-found: error
           retention-days: 5
 
-      - name: "Build static ML Flow"
-        working-directory: ${{ github.workspace }}/mlflow-repo/mlflow/server/js
-        shell: bash
-        run: |
-          make docker-build-image-for-build-static-ui
-          make docker-build-static-ui
-          cp -r build/. ${{ github.workspace }}/www-root
-
-          cp ${{ github.workspace }}/ui_static_data.json \
-             ${{ github.workspace }}/www-root/
-
-
       ###
-      ### Deploy
+      ### Deploy UI + data
       ###
       - name: "Push www-root content to repo gh-pages branch"
         working-directory: ${{ github.workspace }}/www-root
         shell: bash
         run: |
-          # Github pages does not allow directory listing, add files in root
-          # for troubleshooting
-          find . > list_all_files.txt
-          du -hs * > disk_usage.txt
-
           git init
           git checkout -b gh-pages
 
