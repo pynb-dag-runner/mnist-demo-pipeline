@@ -12,6 +12,10 @@ jobs:
     name: Build and deploy static website
     runs-on: ubuntu-20.04
     steps:
+      # v ------- This block fetches all logs and builds assets for static UI ---------v
+
+      # This should be refactored into a separate Github action
+
       - uses: actions/checkout@v3
         with:
           repository: pynb-dag-runner/pynb-dag-runner
@@ -45,19 +49,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Store ui_static_data.json with data for UI (for easier offline debugging)"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ui-static-data
-          path: |
-              ${{ github.workspace }}/www-root/ui_static_data.json
-          if-no-files-found: error
-          retention-days: 5
-
-      ###
-      ### Fetch UI assets
-      ###
-      - name: "pip install package with assets for static web front end"
+      - name: "pip install package with static assets for web front end"
         working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
         # ^-- this directory is where makefile is located
         shell: bash
@@ -73,7 +65,24 @@ jobs:
                   cp -r \
                       /github_workspace/pynb_dag_runner_webui/assets/. \
                       /github_workspace/www-root/; \
+                  : ; \
+                  : Github Pages does not allow directory listing. Add files \
+                  : for troubleshooting; \
+                  cd /github_workspace/www-root/; \
+                  find . > list_all_files.txt; \
+                  du -hs * > disk_usage.txt; \
               "
+
+      # ^ ------- This block fetches all logs and builds assets for static UI ---------^
+
+      - name: "debug: Store ui_static_data.json with data for UI"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ui-static-data
+          path: |
+              ${{ github.workspace }}/www-root/ui_static_data.json
+          if-no-files-found: error
+          retention-days: 5
 
       ###
       ### Deploy UI + data
@@ -82,11 +91,6 @@ jobs:
         working-directory: ${{ github.workspace }}/www-root
         shell: bash
         run: |
-          # Github pages does not allow directory listing, add files in root
-          # for troubleshooting
-          find . > list_all_files.txt
-          du -hs * > disk_usage.txt
-
           git init
           git checkout -b gh-pages
 
