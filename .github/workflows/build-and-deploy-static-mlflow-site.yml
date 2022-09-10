@@ -58,7 +58,8 @@ jobs:
       ### Fetch UI assets
       ###
       - name: "pip install package with assets for static web front end"
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
+        # ^-- this directory is where makefile is located
         shell: bash
         run: |
           make docker-run-command \
