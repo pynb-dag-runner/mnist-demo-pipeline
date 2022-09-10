@@ -62,13 +62,6 @@ jobs:
         # ^-- this directory is where makefile is located
         shell: bash
         run: |
-          echo "---"
-          pwd
-          echo "---"
-          ls -la .
-          echo "---"
-          cat makefile
-          echo "---"
           make docker-run-command \
               DOCKER_RUN_ARGS="\
                   --volume ${{ github.workspace }}:/github_workspace \
