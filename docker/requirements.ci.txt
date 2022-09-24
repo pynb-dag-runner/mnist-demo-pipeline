@@ -5,7 +5,7 @@
 # See,
 #  - https://github.com/onnx/onnx#official-python-packages
 #  - https://docs.microsoft.com/en-us/azure/azure-sql-edge/deploy-onnx
-protobuf==3.16.0
+protobuf==3.18.3
 onnx==1.10.1
 skl2onnx==1.11.2
 onnxruntime==1.12.0
