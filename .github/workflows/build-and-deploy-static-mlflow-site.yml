@@ -15,6 +15,14 @@ jobs:
       # v ------- This block fetches all logs and builds assets for static UI ---------v
 
       # This should be simplified: refactored into a separate gha, or makefile task?
+      #
+      # Note that the below depends on packages (see the pip install commands)
+      #
+      #   - pynb-dag-runner
+      #   - pynb_dag_runner_webui
+      #
+      # These would better be somehow installed in a docker container (to collect all
+      # dependencies into one place).
 
       - uses: actions/checkout@v3
         with:
@@ -38,7 +46,7 @@ jobs:
                   -e GITHUB_REPOSITORY \
               " \
               COMMAND="\
-                  pip install -e .; \
+                  pip install pynb-dag-runner-snapshot==0.0.8.dev1665829343; \
                   static_builder \
                       --github_repository $GITHUB_REPOSITORY \
                       --output_dir /github_workspace/www-root/pipeline-artifacts/ \
@@ -56,18 +64,11 @@ jobs:
                   --volume ${{ github.workspace }}:/github_workspace \
               " \
               COMMAND="\
-                  cd /github_workspace; \
                   pip install pynb_dag_runner_webui \
-                      --target pynb_dag_runner_webui; \
+                      --target /github_workspace/pynb_dag_runner_webui; \
                   cp -r \
                       /github_workspace/pynb_dag_runner_webui/assets/. \
                       /github_workspace/www-root/; \
-                  : ; \
-                  : Github Pages does not allow directory listing. Add files \
-                  : for troubleshooting; \
-                  cd /github_workspace/www-root/; \
-                  find . > list_all_files.txt; \
-                  du -hs * > disk_usage.txt; \
               "
 
       # ^ ------- This block fetches all logs and builds assets for static UI ---------^
@@ -88,6 +89,11 @@ jobs:
         working-directory: ${{ github.workspace }}/www-root
         shell: bash
         run: |
+          # Github Pages does not allow directory listing.
+          # Add files for troubleshooting in the browser.
+          find . > list_all_files.txt
+          du -hs * > disk_usage.txt
+
           git init
           git checkout -b gh-pages
 
