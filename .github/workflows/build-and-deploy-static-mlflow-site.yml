@@ -14,27 +14,25 @@ jobs:
     steps:
       # v ------- This block fetches all logs and builds assets for static UI ---------v
 
-      # This should be refactored into a separate Github action
+      # This should be simplified: refactored into a separate gha, or makefile task?
 
       - uses: actions/checkout@v3
         with:
-          repository: pynb-dag-runner/pynb-dag-runner
-          path: pynb-dag-runner-repo
           persist-credentials: true
 
       - name: "Build Docker file"
-        working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
+        working-directory: ${{ github.workspace }}
         shell: bash
         run: |
-          make docker-build
+          (cd docker; make build-base-env-docker-image)
 
       - name: "Fetch all artefacts into directory tree"
-        working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
+        working-directory: ${{ github.workspace }}
         shell: bash
         run: |
           # GITHUB_REPOSITORY has format owner/repo-name.
-          make docker-run-command \
-              DOCKER_RUN_ARGS="\
+          make run[in-base-docker] \
+              EXTRA_FLAGS="\
                   --volume ${{ github.workspace }}:/github_workspace \
                   -e GITHUB_TOKEN \
                   -e GITHUB_REPOSITORY \
@@ -50,12 +48,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "pip install package with static assets for web front end"
-        working-directory: ${{ github.workspace }}/pynb-dag-runner-repo/otel_output_parser
-        # ^-- this directory is where makefile is located
+        working-directory: ${{ github.workspace }}
         shell: bash
         run: |
-          make docker-run-command \
-              DOCKER_RUN_ARGS="\
+          make run[in-base-docker] \
+              EXTRA_FLAGS="\
                   --volume ${{ github.workspace }}:/github_workspace \
               " \
               COMMAND="\
