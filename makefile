@@ -30,7 +30,7 @@ dev-down:
 	    --remove-orphans
 
 docker-run-in-cicd:
-	docker run --rm -t \
+	docker run --rm -tty \
 	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
 	    $(EXTRA_FLAGS) \
 	    --volume $$(pwd)/workspace:/home/host_user/workspace \

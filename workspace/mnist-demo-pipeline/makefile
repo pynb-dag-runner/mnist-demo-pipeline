@@ -25,7 +25,7 @@ expand-opentelemetry-spans-into-directory-structure:
 	pynb_log_parser \
 	    --input_span_file /pipeline-outputs/opentelemetry-spans.json \
 	    --output_directory /pipeline-outputs \
-	    --output_filepath_mermaid_gantt /pipeline-outputs/gantt.mdm \
+	    --output_filepath_mermaid_gantt /pipeline-outputs/gantt.mmd \
 	    --output_filepath_mermaid_dag /pipeline-outputs/dag.mmd
 
 test-mypy:
