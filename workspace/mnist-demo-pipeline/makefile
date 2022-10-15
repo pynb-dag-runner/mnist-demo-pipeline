@@ -26,7 +26,7 @@ expand-opentelemetry-spans-into-directory-structure:
 	    --input_span_file /pipeline-outputs/opentelemetry-spans.json \
 	    --output_directory /pipeline-outputs \
 	    --output_filepath_mermaid_gantt /pipeline-outputs/gantt.mdm \
-	    --output_filepath_mermaid_dag /pipeline-outputs/dag.mmd; \
+	    --output_filepath_mermaid_dag /pipeline-outputs/dag.mmd
 
 test-mypy:
 	mypy --ignore-missing-imports .

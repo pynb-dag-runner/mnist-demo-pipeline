@@ -124,10 +124,10 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
             make docker-run-in-cicd \
-                COMMAND="(\
+                COMMAND="( \
                     cd mnist-demo-pipeline; \
                     make expand-opentelemetry-spans-into-directory-structure; \
-	              )"
+                )"
 
       - name: "Report pipeline summary to to Github actions page"
         shell: bash
