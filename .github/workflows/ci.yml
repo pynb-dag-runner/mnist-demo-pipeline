@@ -99,7 +99,7 @@ jobs:
                 EXTRA_FLAGS="$EXTRA_FLAGS" \
                 COMMAND="\
                     (cd common; make install) && \
-                    (cd mnist-demo-pipeline; make run)"
+                    (cd mnist-demo-pipeline; make run-pipeline)"
 
         env:
             ENVS_TO_EXPORT_TO_DOCKER:
@@ -118,6 +118,16 @@ jobs:
               GITHUB_EVENT_NAME
 
       # -- store pipeline outputs --
+
+      - name: "Expand OpenTelemetry file into directory structure; Create Mermaid diagrams"
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        run: |
+            make docker-run-in-cicd \
+                COMMAND="(\
+                    cd mnist-demo-pipeline; \
+                    make expand-opentelemetry-spans-into-directory-structure; \
+	              )"
 
       - name: "Report pipeline summary to to Github actions page"
         shell: bash

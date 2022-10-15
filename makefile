@@ -1,7 +1,10 @@
+.PHONY: *
 SHELL := /bin/bash
 
 # override when invoking make, eg "make RUN_ENVIRONMENT=ci ..."
 RUN_ENVIRONMENT ?= "dev"
+
+# --- Docker related tasks ---
 
 docker-build-all:
 	# Build docker images for running mnist-demo-pipeline
@@ -26,8 +29,6 @@ dev-down:
 	    down \
 	    --remove-orphans
 
-### Define tasks run inside Docker
-
 docker-run-in-cicd:
 	docker run --rm -t \
 	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
@@ -38,19 +39,21 @@ docker-run-in-cicd:
 	    mnist-demo-pipeline-cicd \
 	    "$(COMMAND)"
 
+# --- pipeline tasks ---
+
 clean:
 	# The below commands do not depend on RUN_ENVIRONMENT. But, the command
 	# is most useful in dev-setup.
-	make docker-run-in-cicd \
-	    COMMAND=" \
-	        (cd common; make clean; ) && \
-	        (cd mnist-demo-pipeline; make clean-pipeline-outputs)"
+	$(MAKE) docker-run-in-cicd \
+	    COMMAND="( \
+	        cd common; make clean; \
+	        cd mnist-demo-pipeline; make clean-pipeline-outputs; \
+	    )"
 
-test-and-run-pipeline:
-	# Single command to run all tests and the demo pipeline
-	make clean
+test-and-run-pipeline[in-docker]: | clean
+	# Single command to run all tests, run the pipeline and expand output into directory structure
 
-	make docker-run-in-cicd \
+	$(MAKE) docker-run-in-cicd \
 	    EXTRA_FLAGS="--network none" \
 	    RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
 	    COMMAND="( \
@@ -61,7 +64,6 @@ test-and-run-pipeline:
 	    ) && ( \
 	        cd mnist-demo-pipeline; \
 	        make test-mypy test-black; \
-	        make run; \
+	        make run-pipeline; \
+	        make expand-opentelemetry-spans-into-directory-structure; \
 	    )"
-
-	make draw-visuals-from-logged-spans
