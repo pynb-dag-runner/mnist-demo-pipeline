@@ -38,23 +38,6 @@ docker-run-in-cicd:
 	    mnist-demo-pipeline-cicd \
 	    "$(COMMAND)"
 
-write-vs-code-tasks-json:
-	# Task to update tasks.json file with task definitions for VS Code. This
-	# may not be the most elegant solution; we only need to import <100 lines
-	# of Python from pynb-dag-runner. However, one should not need to update
-	# the tasks very often.
-	docker run --rm \
-	    --network none \
-	    --volume $$(pwd)/workspace:/home/host_user/workspace \
-	    --volume $$(pwd)/pynb-dag-runner:/home/host_user/pynb-dag-runner \
-	    --workdir /home/host_user/workspace/.vscode/ \
-	    mnist-demo-pipeline-cicd \
-	    "( \
-	        mypy --ignore-missing-imports write_tasks_json.py; \
-	        black write_tasks_json.py; \
-	        python3 write_tasks_json.py \
-	    )"
-
 clean:
 	# The below commands do not depend on RUN_ENVIRONMENT. But, the command
 	# is most useful in dev-setup.
