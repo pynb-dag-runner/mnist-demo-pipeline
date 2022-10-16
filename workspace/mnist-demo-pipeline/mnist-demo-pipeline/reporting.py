@@ -23,7 +23,7 @@ print(f"  - pipeline_outputs_path         : {args().pipeline_outputs_path}")
 
 def get_url_to_this_run(pipeline_outputs_path: Path) -> str:
     pipeline_attributes = json.loads(
-        (pipeline_outputs_path / "pipeline.json").read_text()
+        (pipeline_outputs_path / "pipeline-outputs" / "pipeline.json").read_text()
     )["attributes"]
 
     repo_owner, repo_name = pipeline_attributes["pipeline.github.repository"].split("/")
