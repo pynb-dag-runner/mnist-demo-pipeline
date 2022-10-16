@@ -26,8 +26,6 @@ def get_url_to_this_run(pipeline_outputs_path: Path) -> str:
         (pipeline_outputs_path / "pipeline-outputs" / "pipeline.json").read_text()
     )["attributes"]
 
-    print(pipeline_attributes)
-
     repo_owner, repo_name = pipeline_attributes["pipeline.github.repository"].split("/")
     run_id = pipeline_attributes["pipeline.pipeline_run_id"]
 
