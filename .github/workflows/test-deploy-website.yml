@@ -11,10 +11,7 @@ jobs:
   run-all-tests-and-pipeline:
     name: Deploy static website
     uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@initial-setup
-
-    #with:
-    #  foo: cat
-    #secrets:
-    #  github_token: ${{ secrets.PYPI_SECRET_TOKEN }}
+    secrets:
+      CALLER_ACTION_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #permissions:
     #  contents: none
