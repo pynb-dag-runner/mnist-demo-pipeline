@@ -14,6 +14,6 @@ jobs:
     steps:
       - name: Call gha action
         id: gha-deploy
-        uses: pynb-dag-runner/gha-build-and-publish-static-webui@.github/workflows/deploy-to-github-page.yml@
+        uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@
         #with:
         #  param1: 'foocat'
