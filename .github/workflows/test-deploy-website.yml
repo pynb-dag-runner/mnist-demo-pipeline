@@ -1,0 +1,19 @@
+name: "testing deploy website using docker gha"
+
+on:
+  push:
+    branches:
+      - deploy-website-using-docker-gha
+
+  workflow_dispatch:
+
+jobs:
+  run-all-tests-and-pipeline:
+    runs-on: ubuntu-22.04
+    name: Deploy static website
+    steps:
+      - name: Call gha action
+        id: gha-deploy
+        uses: pynb-dag-runner/gha-build-and-publish-static-webui@initial-setup
+        #with:
+        #  param1: 'foocat'
