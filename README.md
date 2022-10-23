@@ -25,7 +25,7 @@ This repository is configured to run the pipeline for all pull requests, see exp
 This repository uses Github Actions automation to run the demo pipeline as part of the repo's CI-pipeline. Each CI-run stores the pipeline outputs (ie notebooks, models, and logged images and metrics) as build artefacts.
 
 This means:
-- The entire pipeline is run for all commits to pull request to this repository, and to commits to `development` branch.
+- The entire pipeline is run for all commits to pull request to this repository, and to commits to `main`-branch.
 - From the build artefacts one can inspect the pipeline's outputs (and, in particular, model performances) for each pull request and commit.
 - The pipeline runs using (free) compute resources provided by Github. No other infrastructure is needed.
 - Forking this repo in Github gives a new pipeline with its own experiment tracker that can be developed independently.
