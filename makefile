@@ -9,19 +9,19 @@ RUN_ENVIRONMENT ?= "dev"
 build-all-docker-images:
 	(cd docker; make build-all-docker-images)
 
-# --- pipeline tasks ---
+# --- Pipeline tasks ---
 
 clean:
-	@# The below commands do not depend on RUN_ENVIRONMENT. But, the command
-	@# is most useful in dev-setup.
-	cd docker; \
-	$(MAKE) in-cicd-docker/run-command \
-	    COMMAND="( \
-	        cd common; make clean; \
-	        cd mnist-demo-pipeline; make clean-pipeline-outputs; \
-	    )"
+	@# The below does not run in Docker since we are just deleting files
 
-test-and-run-pipeline[in-docker]: | clean
+	@echo " *** Cleaning any built artifacts for common Python package ..."
+	@(cd workspace/common; $(MAKE) clean)
+
+	@echo " *** Emptying pipeline-outputs directory ..."
+	@rm -rf pipeline-outputs/*
+	@touch pipeline-outputs/.gitkeep
+
+in-cicd-docker/test-and-run-pipeline: | clean
 	@# Single command to run all tests, run the pipeline and expand output into directory structure
 	cd docker; \
 	$(MAKE) in-cicd-docker/run-command \

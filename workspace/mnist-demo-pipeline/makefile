@@ -33,8 +33,3 @@ test-mypy:
 
 test-black:
 	black --check --diff --exclude /.ipynb_checkpoints/ .
-
-clean-pipeline-outputs:
-	# use with care
-	rm -rf /pipeline-outputs/*
-	touch /pipeline-outputs/.gitkeep
