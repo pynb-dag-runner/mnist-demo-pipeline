@@ -1,5 +1,5 @@
-# Docker image for testing and building pynb-dag-runner library
-# Used by ci/cd (automated tests and build process) in Github.
+# Docker image for CI/CD:
+#  - automated testing and building pynb-dag-runner library in Github.
 
 FROM mnist-demo-pipeline-base
 
