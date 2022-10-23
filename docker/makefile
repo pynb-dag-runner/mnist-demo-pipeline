@@ -25,7 +25,7 @@ JUPYTER_TOKEN:
 
 build-local-dev-env-docker-image: JUPYTER_TOKEN
 	docker build \
-	    --file Dockerfile.dev \
+	    --file Dockerfile.local-dev \
 	    --build-arg JUPYTER_TOKEN=$$(cat JUPYTER_TOKEN) \
 	    --tag mnist-demo-pipeline-local-dev \
 	    .
