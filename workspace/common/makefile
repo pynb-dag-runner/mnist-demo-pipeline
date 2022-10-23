@@ -34,7 +34,7 @@ watch-%:
 	    | entr \
 	    $(MAKE) --no-print-directory $*
 
-tmux-watch-all-tests:
+tmux-run-all-tests-in-watch-mode:
 	@echo ">>> Running all tests in watch mode. "
 	@echo " - Exit with <Ctrl-B> + 'X'"
 	@tmuxinator start
