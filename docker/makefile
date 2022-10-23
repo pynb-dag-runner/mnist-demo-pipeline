@@ -1,13 +1,13 @@
 SHELL := /bin/bash
 
-### Tasks to build Docker images
+# --- Tasks to build Docker images ---
 
 build-base-env-docker-image:
 	docker \
 	    build \
 	    --file Dockerfile.base \
 	    --build-arg HOST_UID=$$(id -u) \
-	    --build-arg HOST_GID="$$(id -g)" \
+	    --build-arg HOST_GID=$$(id -g) \
 	    --tag mnist-demo-pipeline-base \
 	    .
 
@@ -30,5 +30,5 @@ build-dev-env-docker-image: JUPYTER_TOKEN
 	    build \
 	    --file Dockerfile.dev \
 	    --build-arg JUPYTER_TOKEN=$$(cat JUPYTER_TOKEN) \
-	    --tag mnist-demo-pipeline-dev \
+	    --tag mnist-demo-pipeline-local-dev \
 	    .
