@@ -3,11 +3,12 @@ name: "Reusable workflow to run automated tests and the mnist-digit-demo-pipelin
 on:
   workflow_call:
 
-
 defaults:
   run:
     shell: bash
-    working-directory: ${{ github.workspace }}
+    # . is equivalent to ${{ github.workspace }}, but latter is not supported in
+    # defaults section.
+    working-directory: .
 
 jobs:
   run-tests-pipeline-and-persist-pipeline-outputs:
