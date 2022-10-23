@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 
+
 # --- Tasks to build Docker images ---
 
 build-base-env-docker-image:
@@ -11,8 +12,6 @@ build-base-env-docker-image:
 	    .
 
 build-cicd-env-docker-image:
-	# (Below docker context is mnist-demo-pipeline repo root so we can access
-	# wheel-file built into pynb-dag-runner submodule.)
 	docker build \
 	    --no-cache \
 	    --file Dockerfile.cicd \
@@ -34,3 +33,33 @@ build-all-docker-images:
 	$(MAKE) build-base-env-docker-image
 	$(MAKE) build-cicd-env-docker-image
 	$(MAKE) build-local-dev-env-docker-image
+
+
+# --- Run commands in Docker images ---
+
+in-cicd-docker/run-command:
+	docker run --rm --tty \
+	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
+	    $(EXTRA_FLAGS) \
+	    --volume $$(pwd)/../workspace:/home/host_user/workspace \
+	    --volume $$(pwd)/../pipeline-outputs:/pipeline-outputs \
+	    --workdir /home/host_user/workspace/ \
+	    mnist-demo-pipeline-cicd \
+	    "$(COMMAND)"
+
+
+# --- Manually start/stop the dev-docker container (without VS Code) ---
+
+dev-up:
+	docker-compose \
+	    -f ../.devcontainer-docker-compose.yml \
+	    up \
+	    --remove-orphans \
+	    --abort-on-container-exit \
+	    dev-environment
+
+dev-down:
+	docker-compose \
+	    -f ../.devcontainer-docker-compose.yml \
+	    down \
+	    --remove-orphans
