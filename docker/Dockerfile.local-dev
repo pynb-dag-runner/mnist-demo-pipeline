@@ -6,7 +6,10 @@ FROM mnist-demo-pipeline-cicd
 #  - VS Code devcontainer
 
 USER root
-RUN apt-get install -y -qq --no-install-recommends entr jq
+RUN apt-get install -y -qq --no-install-recommends \
+        entr \
+        jq \
+        tmuxinator
 USER host_user
 
 RUN : && \
