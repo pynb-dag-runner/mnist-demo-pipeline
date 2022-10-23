@@ -7,12 +7,7 @@ RUN_ENVIRONMENT ?= "dev"
 # --- Docker related tasks ---
 
 build-all-docker-images:
-docker-build-all:
-	# Build docker images for running mnist-demo-pipeline
-	(cd docker; make \
-	    build-base-env-docker-image \
-	    build-cicd-env-docker-image \
-	    build-dev-env-docker-image)
+	(cd docker; make build-all-docker-images)
 
 ### Manually start/stop the dev-docker container (can be used without VS Code)
 

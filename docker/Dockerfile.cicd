@@ -3,7 +3,7 @@
 
 FROM mnist-demo-pipeline-base
 
-COPY docker/requirements.ci.txt /home/host_user/
+COPY requirements.ci.txt /home/host_user/
 RUN pip3 install \
         --user \
         --quiet \
