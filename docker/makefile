@@ -51,7 +51,7 @@ in-cicd-docker/run-command:
 
 dev-up:
 	docker-compose \
-	    -f ../.devcontainer-docker-compose.yml \
+	    -f .devcontainer-docker-compose.yml \
 	    up \
 	    --remove-orphans \
 	    --abort-on-container-exit \
@@ -59,6 +59,6 @@ dev-up:
 
 dev-down:
 	docker-compose \
-	    -f ../.devcontainer-docker-compose.yml \
+	    -f .devcontainer-docker-compose.yml \
 	    down \
 	    --remove-orphans

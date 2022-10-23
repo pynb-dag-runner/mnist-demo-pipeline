@@ -2,10 +2,10 @@ version: "3.6"
 
 services:
   dev-environment:
-    image: mnist-demo-pipeline-dev
+    image: mnist-demo-pipeline-local-dev
     volumes:
-    - ./workspace:/home/host_user/workspace
-    - ./pipeline-outputs:/pipeline-outputs
+    - ../workspace:/home/host_user/workspace
+    - ../pipeline-outputs:/pipeline-outputs
     ports:
     - "8888:8888"
     environment:

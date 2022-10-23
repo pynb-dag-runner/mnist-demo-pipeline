@@ -2,7 +2,7 @@
 {
   "name": "mnist-demo-pipeline dev",
   "dockerComposeFile": [
-    ".devcontainer-docker-compose.yml"
+    "docker/.devcontainer-docker-compose.yml"
   ],
   "service": "dev-environment",
   "runServices": [],
