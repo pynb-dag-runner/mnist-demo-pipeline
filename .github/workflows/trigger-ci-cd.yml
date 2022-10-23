@@ -39,6 +39,6 @@ jobs:
     needs: run-all-tests-and-pipeline
     permissions:
       contents: write # grant write access to update repo's static website
-    uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@initial-setup
+    uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@main
     secrets:
       CALLER_ACTION_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
