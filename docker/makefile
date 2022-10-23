@@ -13,7 +13,6 @@ build-base-env-docker-image:
 
 build-cicd-env-docker-image:
 	docker build \
-	    --no-cache \
 	    --file Dockerfile.cicd \
 	    --tag mnist-demo-pipeline-cicd \
 	    .

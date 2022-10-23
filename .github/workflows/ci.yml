@@ -37,19 +37,19 @@ jobs:
         run: |
             make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-pytest )"
+                COMMAND="(cd common; make install-editable test-pytest )"
 
       - name: "common: Check mypy type hints"
         run: |
             make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-mypy )"
+                COMMAND="(cd common; make install-editable test-mypy )"
 
       - name: "common: Check black formatting"
         run: |
             make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-black )"
+                COMMAND="(cd common; make install-editable test-black )"
 
       # -- test and run pipeline --
 
@@ -65,7 +65,7 @@ jobs:
             make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
                 COMMAND="\
-                    (cd common; make install) && \
+                    (cd common; make install-editable) && \
                     (cd mnist-demo-pipeline; make test-mypy)"
 
       - name: "mnist-digits-demo-pipeline: Run pipeline"
@@ -95,7 +95,7 @@ jobs:
                 RUN_ENVIRONMENT="ci" \
                 EXTRA_FLAGS="$EXTRA_FLAGS" \
                 COMMAND="\
-                    (cd common; make install) && \
+                    (cd common; make install-editable) && \
                     (cd mnist-demo-pipeline; make run-pipeline)"
 
         env:

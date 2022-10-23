@@ -1,8 +1,8 @@
 .PHONY: *
 SHELL := /bin/bash
 
-install:
-	# Installing mnist-demo-pipeline common in editable mode ...
+install-editable:
+	@# Installing mnist-demo-pipeline common package in editable mode ...
 	pip3 install --user --editable .
 
 clean:

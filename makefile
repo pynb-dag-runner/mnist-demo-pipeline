@@ -29,7 +29,7 @@ in-cicd-docker/test-and-run-pipeline: | clean
 	    RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
 	    COMMAND="( \
 	        cd common; \
-	        make install; \
+	        make install-editable; \
 	        make test-pytest test-mypy test-black; \
 	        make clean; \
 	    ) && ( \
