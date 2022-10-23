@@ -27,27 +27,6 @@ from pynb_dag_runner.tasks.task_opentelemetry_logging import PydarLogger
 
 logger = PydarLogger(P)
 
-# %%
-import time, random
-
-
-def maybe_crash(retry_nr: int, run_environment: str):
-    if retry_nr == 2 and run_environment == "ci":
-        time.sleep(1e6)
-
-    max_retry_nr: int = 3 if run_environment == "dev" else 10
-
-    if retry_nr < max_retry_nr:
-        if random.random() < 0.1:
-            time.sleep(1e6)
-        else:
-            raise Exception("Simulated exception failure from ingestion step notebook!")
-
-
-maybe_crash(
-    retry_nr=int(P["run.retry_nr"]), run_environment=P["pipeline.run_environment"]
-)
-
 # %% [markdown]
 # ### Notebook code
 
