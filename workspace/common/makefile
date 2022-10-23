@@ -1,3 +1,4 @@
+.PHONY: *
 SHELL := /bin/bash
 
 install:
