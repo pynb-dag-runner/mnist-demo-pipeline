@@ -6,69 +6,30 @@ RUN_ENVIRONMENT ?= "dev"
 
 # --- Docker related tasks ---
 
-docker-build-all:
-	# Build docker images for running mnist-demo-pipeline
-	(cd docker; make \
-	    build-base-env-docker-image \
-	    build-cicd-env-docker-image \
-	    build-dev-env-docker-image)
+build-all-docker-images:
+	(cd docker; make build-all-docker-images)
 
-### Manually start/stop the dev-docker container (can be used without VS Code)
-
-dev-up:
-	docker-compose \
-	    -f .devcontainer-docker-compose.yml \
-	    up \
-	    --remove-orphans \
-	    --abort-on-container-exit \
-	    dev-environment
-
-dev-down:
-	docker-compose \
-	    -f .devcontainer-docker-compose.yml \
-	    down \
-	    --remove-orphans
-
-run[in-base-docker]:
-	docker run --rm --tty \
-	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
-	    $(EXTRA_FLAGS) \
-	    --volume $$(pwd)/workspace:/home/host_user/workspace \
-	    --volume $$(pwd)/pipeline-outputs:/pipeline-outputs \
-	    --workdir /home/host_user/workspace/ \
-	    mnist-demo-pipeline-base \
-	    "$(COMMAND)"
-
-docker-run-in-cicd:
-	docker run --rm --tty \
-	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
-	    $(EXTRA_FLAGS) \
-	    --volume $$(pwd)/workspace:/home/host_user/workspace \
-	    --volume $$(pwd)/pipeline-outputs:/pipeline-outputs \
-	    --workdir /home/host_user/workspace/ \
-	    mnist-demo-pipeline-cicd \
-	    "$(COMMAND)"
-
-# --- pipeline tasks ---
+# --- Pipeline tasks ---
 
 clean:
-	# The below commands do not depend on RUN_ENVIRONMENT. But, the command
-	# is most useful in dev-setup.
-	$(MAKE) docker-run-in-cicd \
-	    COMMAND="( \
-	        cd common; make clean; \
-	        cd mnist-demo-pipeline; make clean-pipeline-outputs; \
-	    )"
+	@# The below does not run in Docker since we are just deleting files
 
-test-and-run-pipeline[in-docker]: | clean
-	# Single command to run all tests, run the pipeline and expand output into directory structure
+	@echo " *** Cleaning any built artifacts for common Python package ..."
+	@(cd workspace/common; $(MAKE) clean)
 
-	$(MAKE) docker-run-in-cicd \
+	@echo " *** Emptying pipeline-outputs directory ..."
+	@rm -rf pipeline-outputs/*
+	@touch pipeline-outputs/.gitkeep
+
+in-cicd-docker/test-and-run-pipeline: | clean
+	@# Single command to run all tests, run the pipeline and expand output into directory structure
+	cd docker; \
+	$(MAKE) in-cicd-docker/run-command \
 	    EXTRA_FLAGS="--network none" \
 	    RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
 	    COMMAND="( \
 	        cd common; \
-	        make install; \
+	        make install-editable; \
 	        make test-pytest test-mypy test-black; \
 	        make clean; \
 	    ) && ( \

@@ -3,78 +3,76 @@ name: "Reusable workflow to run automated tests and the mnist-digit-demo-pipelin
 on:
   workflow_call:
 
+defaults:
+  run:
+    shell: bash
+
+    # Note that bash commands are executed only after the checkout step.
+    #
+    # ./docker is equivalent to ${{ github.workspace }}/docker, but latter is not
+    # supported in defaults section.
+    working-directory: ./docker
+
 jobs:
   run-tests-pipeline-and-persist-pipeline-outputs:
     name: Build pipeline tests, run pipeline and persist pipeline outputs
     runs-on: ubuntu-20.04
 
     steps:
-      - name: "Determine run-environment"
-        shell: bash
-        run: |
-            echo "RUN_ENVIRONMENT=ci" >> $GITHUB_ENV
-
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      - name: "Build docker image"
-        shell: bash
-        working-directory: ${{ github.workspace }}
+      - name: "Determine run-environment"
         run: |
-            make docker-build-all
+            echo "RUN_ENVIRONMENT=ci" >> $GITHUB_ENV
+
+      - name: "Build all required Docker images"
+        run: |
+            make build-all-docker-images
 
       # -- check and test common package used by multiple tasks in the pipeline --
 
       - name: "common: Run unit tests"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-pytest )"
+                COMMAND="(cd common; make install-editable test-pytest )"
 
       - name: "common: Check mypy type hints"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-mypy )"
+                COMMAND="(cd common; make install-editable test-mypy )"
 
       - name: "common: Check black formatting"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
-                COMMAND="(cd common; make install test-black )"
+                COMMAND="(cd common; make install-editable test-black )"
 
       # -- test and run pipeline --
 
       - name: "mnist-digits-demo-pipeline: Check black formatting"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
                 COMMAND="\
                     (cd mnist-demo-pipeline; make test-black)"
 
       - name: "mnist-digits-demo-pipeline: Check mypy type hints"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
                 COMMAND="\
-                    (cd common; make install) && \
+                    (cd common; make install-editable) && \
                     (cd mnist-demo-pipeline; make test-mypy)"
 
       - name: "mnist-digits-demo-pipeline: Run pipeline"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
+            # TODO:
+            # this should likely be part of in-cicd-docker/run-command setup
+
             # ---- Ensure that github environment variables are passed into
             # ---- the Docker container when starting the pipeline run
             #
@@ -93,11 +91,11 @@ jobs:
             # See https://stackoverflow.com/a/30971572
             export EXTRA_FLAGS="${ENV_ARR[@]/#/-e}"
 
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 RUN_ENVIRONMENT="ci" \
                 EXTRA_FLAGS="$EXTRA_FLAGS" \
                 COMMAND="\
-                    (cd common; make install) && \
+                    (cd common; make install-editable) && \
                     (cd mnist-demo-pipeline; make run-pipeline)"
 
         env:
@@ -119,21 +117,17 @@ jobs:
       # -- store pipeline outputs --
 
       - name: "Expand OpenTelemetry file into directory structure; Create Mermaid diagrams"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 COMMAND="( \
                     cd mnist-demo-pipeline; \
                     make expand-opentelemetry-spans-into-directory-structure; \
                 )"
 
       - name: "Report pipeline summary to to Github actions page"
-        shell: bash
-        working-directory: ${{ github.workspace }}
         run: |
             # https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/
-            make docker-run-in-cicd \
+            make in-cicd-docker/run-command \
                 COMMAND="(\
                     cd mnist-demo-pipeline; \
                     make add-run-summary \

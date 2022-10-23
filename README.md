@@ -49,7 +49,7 @@ git clone --recurse-submodules git@github.com:pynb-dag-runner/mnist-digits-demo-
 
 Now the pipeline can be run as follows:
 ```bash
-make docker-build-all
+make build-all-docker-images
 make clean
 make RUN_ENVIRONMENT="dev" test-and-run-pipeline
 ```
