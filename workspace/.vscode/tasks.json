@@ -4,7 +4,19 @@
         {
             "label": "common package: run all tests in watch mode",
             "type": "shell",
-            "command": "(cd /home/host_user/workspace/common; make tmux-run-all-tests-in-watch-mode)",
+            "command": "(cd /home/host_user/workspace/common; make tmux-watch-all-tests)",
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "demo pipeline: run pipeline and static tests in watch mode",
+            "type": "shell",
+            "command": "(cd /home/host_user/workspace/mnist-demo-pipeline; make tmux-watch-pipeline-and-static-tests)",
             "group": "none",
             "presentation": {
                 "reveal": "always",

@@ -1,16 +1,16 @@
 # See, https://github.com/tmuxinator/tmuxinator
 
-name: watch_tests
+name: watch_pipeline
 root: .
 
 tmux_options: -f ../.tmux.conf
 
-startup_window: watch_tests
+startup_window: watch_pipeline
 
 windows:
   - watch_tests:
       layout: main-vertical
       panes:
-        - make watch-test-pytest
+        - make watch-local-dev-run-pipeline
         - make watch-test-mypy
         - make watch-test-black
