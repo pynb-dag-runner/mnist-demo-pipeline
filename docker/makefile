@@ -1,64 +1,56 @@
-SHELL := /bin/bash
+SHELL                   := /bin/bash
+DOCKER_IMAGE_NAME       := mnist-demo-pipeline
+BUILT_DOCKER_LOCK_FILE  := ./.built-docker-images/${DOCKER_IMAGE_NAME}
 
 
 # --- Tasks to build Docker images ---
 
-build-base-env-docker-image:
+${BUILT_DOCKER_LOCK_FILE}-base: Dockerfile.base makefile
 	docker build \
+	    --no-cache \
 	    --file Dockerfile.base \
 	    --build-arg HOST_UID=$$(id -u) \
 	    --build-arg HOST_GID=$$(id -g) \
-	    --tag mnist-demo-pipeline-base \
+	    --tag ${DOCKER_IMAGE_NAME}-base \
 	    .
+	mkdir -p $(shell dirname $@)
+	touch $@
 
-build-cicd-env-docker-image:
+${BUILT_DOCKER_LOCK_FILE}-cicd: ${BUILT_DOCKER_LOCK_FILE}-base Dockerfile.cicd makefile
 	docker build \
+	    --no-cache \
 	    --file Dockerfile.cicd \
-	    --tag mnist-demo-pipeline-cicd \
+	    --tag ${DOCKER_IMAGE_NAME}-cicd \
 	    .
+	mkdir -p $(shell dirname $@)
+	touch $@
 
 JUPYTER_TOKEN:
 	@echo "Creating random JUPYTER_TOKEN for logging into Jupyter running in Docker ..."
 	openssl rand -base64 42 > JUPYTER_TOKEN
 
-build-local-dev-env-docker-image: JUPYTER_TOKEN
+${BUILT_DOCKER_LOCK_FILE}-dev: JUPYTER_TOKEN ${BUILT_DOCKER_LOCK_FILE}-cicd makefile
 	docker build \
+	    --no-cache \
 	    --file Dockerfile.local-dev \
-	    --build-arg JUPYTER_TOKEN=$$(cat JUPYTER_TOKEN) \
-	    --tag mnist-demo-pipeline-local-dev \
+	    --build-arg JUPYTER_TOKEN=$(shell cat JUPYTER_TOKEN) \
+	    --tag ${DOCKER_IMAGE_NAME}-local-dev \
 	    .
+	mkdir -p $(shell dirname $@)
+	touch $@
 
-build-all-docker-images:
-	$(MAKE) build-base-env-docker-image
-	$(MAKE) build-cicd-env-docker-image
-	$(MAKE) build-local-dev-env-docker-image
+build-all-docker-images: ${BUILT_DOCKER_LOCK_FILE}-dev
 
 
-# --- Run commands in Docker images ---
+# --- Run a command in Docker images ---
 
-in-cicd-docker/run-command:
-	docker run --rm --tty \
-	    --env RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
-	    $(EXTRA_FLAGS) \
-	    --volume $$(pwd)/../workspace:/home/host_user/workspace \
-	    --volume $$(pwd)/../pipeline-outputs:/pipeline-outputs \
+in-cicd-docker/run-command: ${BUILT_DOCKER_LOCK_FILE}-cicd
+	docker run \
+	    --rm \
+	    --tty \
+	    ${EXTRA_FLAGS} \
+	    --volume $(shell pwd)/../workspace:/home/host_user/workspace \
+	    --volume $(shell pwd)/../pipeline-outputs:/pipeline-outputs \
 	    --workdir /home/host_user/workspace/ \
-	    mnist-demo-pipeline-cicd \
-	    "$(COMMAND)"
-
-
-# --- Manually start/stop the dev-docker container (without VS Code) ---
-
-dev-up:
-	docker-compose \
-	    -f .devcontainer-docker-compose.yml \
-	    up \
-	    --remove-orphans \
-	    --abort-on-container-exit \
-	    dev-environment
-
-dev-down:
-	docker-compose \
-	    -f .devcontainer-docker-compose.yml \
-	    down \
-	    --remove-orphans
+	    ${DOCKER_IMAGE_NAME}-cicd \
+	    "${COMMAND}"

@@ -25,8 +25,10 @@ in-cicd-docker/test-and-run-pipeline: | clean
 	@# Single command to run all tests, run the pipeline and expand output into directory structure
 	cd docker; \
 	$(MAKE) in-cicd-docker/run-command \
-	    EXTRA_FLAGS="--network none" \
-	    RUN_ENVIRONMENT=$(RUN_ENVIRONMENT) \
+	    EXTRA_FLAGS=" \
+	        --network none \
+	        --env RUN_ENVIRONMENT=${RUN_ENVIRONMENT} \
+	    " \
 	    COMMAND="( \
 	        cd common; \
 	        make install-editable; \
