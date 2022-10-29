@@ -92,11 +92,14 @@ jobs:
             export EXTRA_FLAGS="${ENV_ARR[@]/#/-e}"
 
             make in-cicd-docker/run-command \
-                RUN_ENVIRONMENT="ci" \
-                EXTRA_FLAGS="$EXTRA_FLAGS" \
+                EXTRA_FLAGS=" \
+                    $EXTRA_FLAGS \
+                    --env RUN_ENVIRONMENT \
+                " \
                 COMMAND="\
                     (cd common; make install-editable) && \
-                    (cd mnist-demo-pipeline; make run-pipeline)"
+                    (cd mnist-demo-pipeline; make run-pipeline) \
+                "
 
         env:
             ENVS_TO_EXPORT_TO_DOCKER:
