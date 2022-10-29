@@ -61,16 +61,14 @@ GLOBAL_PARAMETERS = {
 }
 
 
-def make_notebook_task(
-    nb_name: str, timeout_s=None, max_nr_retries: int = 1, task_parameters={}
-):
+def make_notebook_task(nb_name: str, timeout_s=None, task_parameters={}):
     nb_path: Path = (Path(__file__).parent) / "notebooks"
 
     return make_jupytext_task_ot(
         notebook=JupytextNotebook(nb_path / nb_name),
         tmp_dir=nb_path,
         timeout_s=timeout_s,
-        max_nr_retries=max_nr_retries,
+        max_nr_retries=1,
         parameters={
             **GLOBAL_PARAMETERS,
             **task_parameters,
@@ -86,7 +84,7 @@ print(f"  - run_environment       : {args().run_environment}")
 
 print("---- Setting up tasks and task dependencies ----")
 
-task_ingest = make_notebook_task(nb_name="ingest.py", timeout_s=10, max_nr_retries=15)
+task_ingest = make_notebook_task(nb_name="ingest.py", timeout_s=10)
 
 task_eda = make_notebook_task(nb_name="eda.py")
 run_in_sequence(task_ingest, task_eda)
