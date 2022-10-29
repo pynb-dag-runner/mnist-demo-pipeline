@@ -13,7 +13,38 @@ The ML training pipeline is sceduled to run daily using Github actions, but does
 
 ### ML pipeline tasks
 
-![task-dependencies.png](./assets/task-dependencies.png)
+```mermaid
+graph LR
+    %% Mermaid input file for drawing task dependencies
+    %% See https://mermaid-js.github.io/mermaid
+    %%
+    TASK_SPAN_ID_0x401791f180413f84["notebooks/ingest.py (jupytext task)  <br />task.max_nr_retries=1<br />task.num_cpus=1<br />task.timeout_s=10"]
+    TASK_SPAN_ID_0xc5c712dae74388d0["notebooks/split-train-test.py (jupytext task)  <br />task.max_nr_retries=1<br />task.num_cpus=1<br />task.train_test_ratio=0.7"]
+    TASK_SPAN_ID_0xb1ce6885c4c44d76["notebooks/eda.py (jupytext task)  <br />task.max_nr_retries=1<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x0a0caac5d8642143["notebooks/train-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=600<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0xc156db8aaea01bf8["notebooks/train-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=1000<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0xfb003492acace031["notebooks/train-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=1200<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x3377acd35e405576["notebooks/train-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=800<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0xa9b25c972322627d["notebooks/benchmark-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=600<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x3fc6b8524352258c["notebooks/benchmark-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=1000<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x6835c807eb69509f["notebooks/benchmark-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=800<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x66bae688dc54e7f5["notebooks/benchmark-model.py (jupytext task)  <br />task.max_nr_retries=1<br />task.nr_train_images=1200<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0xc39ccc394adf9ce0["notebooks/summary.py (jupytext task)  <br />task.max_nr_retries=1<br />task.num_cpus=1"]
+    TASK_SPAN_ID_0x0a0caac5d8642143 --> TASK_SPAN_ID_0xa9b25c972322627d
+    TASK_SPAN_ID_0xa9b25c972322627d --> TASK_SPAN_ID_0xc39ccc394adf9ce0
+    TASK_SPAN_ID_0x6835c807eb69509f --> TASK_SPAN_ID_0xc39ccc394adf9ce0
+    TASK_SPAN_ID_0x401791f180413f84 --> TASK_SPAN_ID_0xc5c712dae74388d0
+    TASK_SPAN_ID_0xc5c712dae74388d0 --> TASK_SPAN_ID_0xc156db8aaea01bf8
+    TASK_SPAN_ID_0xc156db8aaea01bf8 --> TASK_SPAN_ID_0x3fc6b8524352258c
+    TASK_SPAN_ID_0x66bae688dc54e7f5 --> TASK_SPAN_ID_0xc39ccc394adf9ce0
+    TASK_SPAN_ID_0xc5c712dae74388d0 --> TASK_SPAN_ID_0xfb003492acace031
+    TASK_SPAN_ID_0x401791f180413f84 --> TASK_SPAN_ID_0xb1ce6885c4c44d76
+    TASK_SPAN_ID_0xfb003492acace031 --> TASK_SPAN_ID_0x66bae688dc54e7f5
+    TASK_SPAN_ID_0x3377acd35e405576 --> TASK_SPAN_ID_0x6835c807eb69509f
+    TASK_SPAN_ID_0x3fc6b8524352258c --> TASK_SPAN_ID_0xc39ccc394adf9ce0
+    TASK_SPAN_ID_0xc5c712dae74388d0 --> TASK_SPAN_ID_0x0a0caac5d8642143
+    TASK_SPAN_ID_0xc5c712dae74388d0 --> TASK_SPAN_ID_0x3377acd35e405576
+```
 
 The pipeline is implemented using the `pynb-dag-runner` library, see [here](https://github.com/pynb-dag-runner/pynb-dag-runner). Each task in the pipeline is implemented as a Jupyter Python notebook.
 
@@ -32,7 +63,41 @@ This means:
 
 The below diagram shows a Gantt chart with runtimes of individual pipeline tasks.
 
-![task-dependencies.png](./assets/runtimes-gantt-chart.png)
+```mermaid
+gantt
+    %% Mermaid input file for drawing Gantt chart of runlog runtimes
+    %% See https://mermaid-js.github.io/mermaid/#/gantt
+    %%
+    axisFormat %H:%M
+    %%
+    %% Give timestamps as unix timestamps (ms)
+    dateFormat x
+    %%
+    section notebooks/ingest.py
+    6.28s - OK : , 1667056911 , 1667056917
+    section notebooks/split-train-test.py
+    5.12s - OK : , 1667056917 , 1667056923
+    section notebooks/eda.py
+    12.34s - OK : , 1667056917 , 1667056930
+    section notebooks/train-model.py
+    7.33s - OK : , 1667056923 , 1667056930
+    section notebooks/train-model.py
+    13.58s - OK : , 1667056923 , 1667056936
+    section notebooks/train-model.py
+    20.11s - OK : , 1667056923 , 1667056943
+    section notebooks/train-model.py
+    13.64s - OK : , 1667056923 , 1667056936
+    section notebooks/benchmark-model.py
+    18.26s - OK : , 1667056930 , 1667056948
+    section notebooks/benchmark-model.py
+    18.83s - OK : , 1667056936 , 1667056955
+    section notebooks/benchmark-model.py
+    23.49s - OK : , 1667056936 , 1667056960
+    section notebooks/benchmark-model.py
+    23.01s - OK : , 1667056943 , 1667056966
+    section notebooks/summary.py
+    5.44s - OK : , 1667056966 , 1667056971
+```
 
 Of note:
 - Tasks are run in parallel using all available cores. On (free) Github hosted runners there are two vCPUs. Parallel execution is implemented using the [Ray](https://www.ray.io/) framework.
