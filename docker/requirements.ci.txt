@@ -21,4 +21,4 @@ black==22.3.0
 mypy==0.931
 
 #
-pynb-dag-runner-snapshot==0.0.8.dev1665829343
+pynb-dag-runner-snapshot==0.0.9.dev1669481786 
