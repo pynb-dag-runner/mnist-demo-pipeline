@@ -9,6 +9,8 @@ The ML training pipeline is sceduled to run daily using Github actions, but does
 
 **For more details about the `pynb-dag-runner` framework used in this demo, please see the [documentation site](https://pynb-dag-runner.github.io/pynb-dag-runner/).**
 
+---
+
 ### ML pipeline tasks
 
 ```mermaid
