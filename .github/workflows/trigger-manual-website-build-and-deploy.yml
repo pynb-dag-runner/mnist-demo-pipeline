@@ -7,7 +7,7 @@ jobs:
   build-and-deploy-static-mlflow-site:
     permissions:
       contents: write # grant write access to update repo's static website
-    uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@dev
+    uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@main
     secrets:
       CALLER_ACTION_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
