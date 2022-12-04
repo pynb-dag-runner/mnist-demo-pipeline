@@ -21,7 +21,7 @@ def write_numpy(path: Path, numpy_obj):
     """
     Serialize and write a numpy array to a local file
     """
-    if path.suffix == ".numpy":
+    if path.suffix != ".numpy":
         raise ValueError(f"Path {path} should have .numpy suffix!")
 
     # Create local directory for file if it does not exist
@@ -36,7 +36,7 @@ def read_numpy(path: Path):
     Read numpy array from a local file saved with write_numpy, see above
     """
 
-    if path.suffix == ".numpy":
+    if path.suffix != ".numpy":
         raise ValueError(f"Path {path} should have .numpy suffix!")
 
     if not path.is_file():
