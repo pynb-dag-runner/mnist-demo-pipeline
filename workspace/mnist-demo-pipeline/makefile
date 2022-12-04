@@ -12,13 +12,14 @@ run-pipeline:
 	        --run_environment ${RUN_ENVIRONMENT} \
 	)
 
-add-run-summary:
-	@echo "*** Create summary of pipeline run ... ***"
+create-pipeline-run-summary:
+	@echo "*** Create pipeline run summary from OpenTelemetry JSON file ... ***"
 	( \
 	    cd mnist-demo-pipeline; \
 	    python3 -u \
 	        reporting.py \
-	        --pipeline_outputs_path ${PIPELINE_OUTPUTS_PATH} \
+	        --input_otel_spans_json_file ${OTEL_SPANS_OUTPUTFILE} \
+	        --output_markdown_file ${OUTPUT_MARKDOWN_FILE} \
 	)
 
 expand-opentelemetry-spans-into-directory-structure:
@@ -30,13 +31,16 @@ expand-opentelemetry-spans-into-directory-structure:
 	    --output_filepath_mermaid_dag   /pipeline-outputs/dag.mmd
 	@echo "- done"
 
+
+# ---
+
 local-dev-run-pipeline:
-	@# TODO: move steps into driver where it makes sense (it has all parameters)
 	$(MAKE) run-pipeline RUN_ENVIRONMENT=dev
 
-	# Skip summary for local-dev, since this step depends on environment variables only
-	# set in Github
-	# $(MAKE) add-run-summary PIPELINE_OUTPUTS_PATH=/pipeline-outputs/
+	$(MAKE) create-pipeline-run-summary \
+	    OTEL_SPANS_OUTPUTFILE=/pipeline-outputs/opentelemetry-spans.json \
+	    OUTPUT_MARKDOWN_FILE=/pipeline-outputs/summary.md
+
 	$(MAKE) expand-opentelemetry-spans-into-directory-structure
 
 test-mypy:
