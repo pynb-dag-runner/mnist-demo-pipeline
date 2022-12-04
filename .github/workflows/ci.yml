@@ -136,7 +136,7 @@ jobs:
                     cd mnist-demo-pipeline; \
                     make create-pipeline-run-summary \
                         OTEL_SPANS_OUTPUTFILE=/pipeline-outputs/opentelemetry-spans.json \
-                        OUTPUT_MARKDOWN_FILE=/pipeline-outputs/pipeline_run_summary.md
+                        OUTPUT_MARKDOWN_FILE=/pipeline-outputs/pipeline_run_summary.md \
                 )"
 
             cat ${{ github.workspace }}/pipeline-outputs/pipeline_run_summary.md > $GITHUB_STEP_SUMMARY
