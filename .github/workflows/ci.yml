@@ -117,9 +117,33 @@ jobs:
               GITHUB_REF_NAME
               GITHUB_EVENT_NAME
 
-      # -- store pipeline outputs --
+      # -- store OpenTelemetry pipeline output log --
 
-      - name: "Expand OpenTelemetry file into directory structure; Create Mermaid diagrams"
+      - name: "Store pipeline run OpenTelemetry logs"
+        uses: actions/upload-artifact@v2
+        with:
+          name: pipeline-opentelemetry-spans
+          path: |
+              ${{ github.workspace }}/pipeline-outputs/opentelemetry-spans.json
+          if-no-files-found: error
+          retention-days: 20
+
+      - name: "Create custom (Markdown) pipeline summary to show in Github actions page"
+        run: |
+            # https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/
+            make in-cicd-docker/run-command \
+                COMMAND="(\
+                    cd mnist-demo-pipeline; \
+                    make create-pipeline-run-summary \
+                        OTEL_SPANS_OUTPUTFILE=/pipeline-outputs/opentelemetry-spans.json \
+                        OUTPUT_MARKDOWN_FILE=/pipeline-outputs/pipeline_run_summary.md \
+                )"
+
+            cat ${{ github.workspace }}/pipeline-outputs/pipeline_run_summary.md > $GITHUB_STEP_SUMMARY
+
+      # --- Expand OpenTelemetry JSON into a directory structure, and store as build artifact --
+
+      - name: "Expand OpenTelemetry JSON log file into a directory structure for easier inspection"
         run: |
             make in-cicd-docker/run-command \
                 COMMAND="( \
@@ -127,19 +151,7 @@ jobs:
                     make expand-opentelemetry-spans-into-directory-structure; \
                 )"
 
-      - name: "Report pipeline summary to to Github actions page"
-        run: |
-            # https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/
-            make in-cicd-docker/run-command \
-                COMMAND="(\
-                    cd mnist-demo-pipeline; \
-                    make add-run-summary \
-                        PIPELINE_OUTPUTS_PATH=/pipeline-outputs/ \
-                )"
-
-            cat ${{ github.workspace }}/pipeline-outputs/pipeline_run_summary.md > $GITHUB_STEP_SUMMARY
-
-      # Upload action uses a separate token (and not GITHUB_TOKEN), see
+      # The Github upload-artifact-action uses a separate token (and not GITHUB_TOKEN), see
       # https://github.com/actions/upload-artifact/issues/197
       - name: "Store pipeline output files"
         uses: actions/upload-artifact@v2
@@ -150,13 +162,4 @@ jobs:
               !**/.gitkeep
               !opentelemetry-spans.json
           if-no-files-found: error
-          retention-days: 20
-
-      - name: "Store pipeline run OpenTelemetry logs"
-        uses: actions/upload-artifact@v2
-        with:
-          name: pipeline-opentelemetry-spans
-          path: |
-              ${{ github.workspace }}/pipeline-outputs/opentelemetry-spans.json
-          if-no-files-found: error
-          retention-days: 20
+          retention-days: 5

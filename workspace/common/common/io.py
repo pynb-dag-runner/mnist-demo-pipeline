@@ -21,7 +21,8 @@ def write_numpy(path: Path, numpy_obj):
     """
     Serialize and write a numpy array to a local file
     """
-    assert path.suffix == ".numpy"
+    if path.suffix != ".numpy":
+        raise ValueError(f"Path {path} should have .numpy suffix!")
 
     # Create local directory for file if it does not exist
     os.makedirs(path.parent, exist_ok=True)
@@ -34,8 +35,12 @@ def read_numpy(path: Path):
     """
     Read numpy array from a local file saved with write_numpy, see above
     """
-    assert path.suffix == ".numpy"
-    assert path.is_file()
+
+    if path.suffix != ".numpy":
+        raise ValueError(f"Path {path} should have .numpy suffix!")
+
+    if not path.is_file():
+        raise ValueError(f"Path {path} does not exist!")
 
     with open(path, "rb") as f:
         return np.load(f)
@@ -51,7 +56,8 @@ def write_onnx(path: Path, model_onnx: onnx.onnx_ml_pb2.ModelProto):
 
 
 def read_onnx(path: Path) -> InferenceSession:
-    assert path.is_file()
+    if not path.is_file():
+        raise ValueError(f"Path {path} does not exist!")
 
     rt.set_seed(0)
     return rt.InferenceSession(path.read_bytes())
