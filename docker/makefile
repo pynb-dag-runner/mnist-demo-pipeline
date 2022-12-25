@@ -5,7 +5,8 @@ BUILT_DOCKER_LOCK_FILE  := ./.built-docker-images/${DOCKER_IMAGE_NAME}
 
 # --- Tasks to build Docker images ---
 
-${BUILT_DOCKER_LOCK_FILE}-base: Dockerfile.base makefile
+${BUILT_DOCKER_LOCK_FILE}-base: Dockerfile.base \
+                                makefile
 	docker build \
 	    --no-cache \
 	    --file Dockerfile.base \
@@ -13,15 +14,22 @@ ${BUILT_DOCKER_LOCK_FILE}-base: Dockerfile.base makefile
 	    --build-arg HOST_GID=$$(id -g) \
 	    --tag ${DOCKER_IMAGE_NAME}-base \
 	    .
+
+	# create lock file
 	mkdir -p $(shell dirname $@)
 	touch $@
 
-${BUILT_DOCKER_LOCK_FILE}-cicd: ${BUILT_DOCKER_LOCK_FILE}-base Dockerfile.cicd makefile
+${BUILT_DOCKER_LOCK_FILE}-cicd: ${BUILT_DOCKER_LOCK_FILE}-base \
+                                Dockerfile.cicd \
+                                requirements.ci.txt \
+                                makefile
 	docker build \
 	    --no-cache \
 	    --file Dockerfile.cicd \
 	    --tag ${DOCKER_IMAGE_NAME}-cicd \
 	    .
+
+	# create lock file
 	mkdir -p $(shell dirname $@)
 	touch $@
 
@@ -29,17 +37,22 @@ JUPYTER_TOKEN:
 	@echo "Creating random JUPYTER_TOKEN for logging into Jupyter running in Docker ..."
 	openssl rand -base64 42 > JUPYTER_TOKEN
 
-${BUILT_DOCKER_LOCK_FILE}-dev: JUPYTER_TOKEN ${BUILT_DOCKER_LOCK_FILE}-cicd makefile
+${BUILT_DOCKER_LOCK_FILE}-dev: JUPYTER_TOKEN \
+                               ${BUILT_DOCKER_LOCK_FILE}-cicd \
+                               makefile
 	docker build \
 	    --no-cache \
 	    --file Dockerfile.local-dev \
 	    --build-arg JUPYTER_TOKEN=$(shell cat JUPYTER_TOKEN) \
 	    --tag ${DOCKER_IMAGE_NAME}-local-dev \
 	    .
+
+	# create lock file
 	mkdir -p $(shell dirname $@)
 	touch $@
 
 build-all-docker-images: ${BUILT_DOCKER_LOCK_FILE}-dev
+	# task that will trigger build of all Docker images
 
 
 # --- Run a command in Docker images ---
