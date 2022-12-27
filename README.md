@@ -135,7 +135,6 @@ If you would like to discuss an idea or have a question, please raise an [issue]
 
 This is WIP and any ideas/feedback are welcome.
 
-
 ## License
 
 (c) Matias Dahl 2021-2022, MIT, see [LICENSE.md](./LICENSE.md).
