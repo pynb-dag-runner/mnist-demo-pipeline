@@ -7,7 +7,7 @@
   "service": "dev-environment",
   "runServices": [],
   "forwardPorts": [
-    8888
+    8000
   ],
   "remoteEnv": {},
   "extensions": [

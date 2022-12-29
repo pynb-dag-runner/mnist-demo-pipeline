@@ -68,7 +68,6 @@ def make_notebook_task(nb_name: str, timeout_s=None, task_parameters={}):
         notebook=JupytextNotebook(nb_path / nb_name),
         tmp_dir=nb_path,
         timeout_s=timeout_s,
-        max_nr_retries=1,
         parameters={
             **GLOBAL_PARAMETERS,
             **task_parameters,
