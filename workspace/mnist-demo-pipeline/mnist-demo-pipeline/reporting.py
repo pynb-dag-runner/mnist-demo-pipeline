@@ -6,7 +6,7 @@ from pathlib import Path
 
 #
 from pynb_dag_runner.opentelemetry_helpers import Spans
-from pynb_dag_runner.opentelemetry_task_span_parser import get_pipeline_iterators
+from pynb_dag_runner.opentelemetry_task_span_parser import parse_spans
 
 from otel_output_parser.mermaid_graphs import (
     make_mermaid_dag_inputfile,
@@ -37,8 +37,7 @@ def load_spans() -> Spans:
 
 
 def get_pipeline_attributes(spans: Spans):
-    pipeline_metadata, _ = get_pipeline_iterators(spans)
-    return pipeline_metadata["attributes"]
+    return parse_spans(spans).attributes
 
 
 def is_remote_run(spans: Spans) -> bool:
