@@ -7,6 +7,7 @@ from typing import List
 import ray
 
 #
+from pynb_dag_runner import version_string
 from pynb_dag_runner.tasks.tasks import make_jupytext_task_ot
 from pynb_dag_runner.opentelemetry_helpers import SpanRecorder
 from pynb_dag_runner.core.dag_runner import (
@@ -19,7 +20,8 @@ from pynb_dag_runner.run_pipeline_helpers import get_github_env_variables
 from pynb_dag_runner.notebooks_helpers import JupytextNotebook
 from pynb_dag_runner.helpers import write_json
 
-print("---- Initialize Ray cluster ----")
+print(f"--- mnist demo pipeline runner {version_string()} ---")
+print("--- Initialize Ray cluster ---")
 
 # Setup Ray and enable tracing using default OpenTelemetry support; traces are
 # written to files /tmp/spans/<pid>.txt in JSON format.
@@ -75,13 +77,13 @@ def make_notebook_task(nb_name: str, timeout_s=None, task_parameters={}):
     )
 
 
-print("---- Command line parameters ----")
+print(f"--- cli arguments:")
 print(f"  - otel_spans_outputfile : {args().otel_spans_outputfile}")
 print(f"  - data_lake_root        : {args().data_lake_root}")
 print(f"  - run_environment       : {args().run_environment}")
 
 
-print("---- Setting up tasks and task dependencies ----")
+print("--- Setting up tasks and task dependencies ---")
 
 task_ingest = make_notebook_task(nb_name="ingest.py", timeout_s=10)
 
@@ -128,7 +130,7 @@ task_summary = make_notebook_task(
 fan_in(task_benchmarks, task_summary)
 
 
-print("---- Running mnist-demo-pipeline ----")
+print("--- Running mnist-demo-pipeline ---")
 
 with SpanRecorder() as rec:
     _ = start_and_await_tasks(
@@ -143,15 +145,15 @@ with SpanRecorder() as rec:
 
 ray.shutdown()
 
-print("---- Exceptions ----")
+print("--- Exceptions ---")
 
 for s in rec.spans.exception_events():
     print(80 * "=")
     print(s)
 
-print("---- Writing spans ----")
+print("--- Writing spans ---")
 
 print(" - Total number of spans recorded   :", len(rec.spans))
 write_json(Path(args().otel_spans_outputfile), list(rec.spans))
 
-print("---- Done ----")
+print("--- Done ---")
