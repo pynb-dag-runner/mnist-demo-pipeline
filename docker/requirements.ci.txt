@@ -21,4 +21,4 @@ black==22.3.0
 mypy==0.931
 
 #
-pynb-dag-runner-snapshot
+composable-logs-snapshot
