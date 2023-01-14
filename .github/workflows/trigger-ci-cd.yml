@@ -38,9 +38,9 @@ jobs:
 
   build-and-deploy-static-mlflow-site:
     needs: run-all-tests-and-pipeline
-    uses: pynb-dag-runner/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@main
+    uses: composable-logs/gha-build-and-publish-static-webui/.github/workflows/deploy-to-github-page.yml@main
     with:
-      pynb-dag-runner-package: composable-logs-snapshot
+      composable-logs-package: composable-logs-snapshot
 
     # Grant GITHUB_TOKEN write access to this repo (to allow updates to
     # gh-pages branch, and inject token.
