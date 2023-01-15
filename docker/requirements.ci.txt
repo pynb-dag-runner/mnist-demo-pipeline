@@ -3,7 +3,7 @@ skl2onnx==1.13
 onnxruntime==1.13.1
 
 #
-scikit-learn==1.1.1  # <-- skl2onnx 1.13 has requirement scikit-learn<=1.1.1
+scikit-learn==1.1.1   # <-- skl2onnx 1.13 has requirement scikit-learn<=1.1.1
 pandas==1.5.2
 matplotlib==3.6.2
 
