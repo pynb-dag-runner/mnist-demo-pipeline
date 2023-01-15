@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 #
+from pynb_dag_runner import version_string
 from pynb_dag_runner.opentelemetry_helpers import Spans
 from pynb_dag_runner.opentelemetry_task_span_parser import parse_spans
 
@@ -50,6 +51,7 @@ def is_remote_run(spans: Spans) -> bool:
     } <= get_pipeline_attributes(spans).keys()
 
 
+print(f"--- demo pipeline reporting {version_string()} ---")
 print(f"  - input_otel_spans_json_file  : {args().input_otel_spans_json_file}")
 print(f"  - output_markdown_file        : {args().output_markdown_file}")
 
