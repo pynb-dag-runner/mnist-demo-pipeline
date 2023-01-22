@@ -5,9 +5,9 @@ This repository contains a demo machine learning pipeline that trains a model fo
 The ML training pipeline is sceduled to run daily using Github actions, but does not require any other cloud infrastructure. Ie., the pipeline runs serverless using only services from a (free) personal Github account:
  - Github Actions: orchestration and compute
  - Github Build Artifacts: persisting pipeline run results (using the OpenTelemetry open standard)
- - Github Pages: static website for model/experiment tracking, [demo site](https://pynb-dag-runner.github.io/mnist-digits-demo-pipeline/). This is built using custom fork of MLFlow.
+ - Github Pages: static website for model/experiment tracking, [demo site](https://composable-logs.github.io/mnist-digits-demo-pipeline/). This is built using custom fork of MLFlow.
 
-**For more details about the `pynb-dag-runner` framework used in this demo, please see the [documentation site](https://pynb-dag-runner.github.io/pynb-dag-runner/).**
+**For more details about the `composable-logs` framework used in this demo, please see the [documentation site](https://composable-logs.github.io/composable-logs/).**
 
 ### ML pipeline tasks
 
@@ -44,9 +44,9 @@ graph LR
     TASK_SPAN_ID_0xc5c712dae74388d0 --> TASK_SPAN_ID_0x3377acd35e405576
 ```
 
-The pipeline is implemented using the `pynb-dag-runner` library, see [here](https://github.com/pynb-dag-runner/pynb-dag-runner). Each task in the pipeline is implemented as a Jupyter Python notebook.
+The pipeline is implemented using the `composable-logs` library, see [here](https://github.com/composable-logs/composable-logs). Each task in the pipeline is implemented as a Jupyter Python notebook.
 
-This repository is configured to run the pipeline for all pull requests, see experiment tracking site linked above. Alternatively, a pipeline's full output, can be inspected by downloading a zip build artefact for a recent build, [link](https://github.com/pynb-dag-runner/mnist-digits-demo-pipeline/actions/workflows/ci.yml). The zip files contain rendered notebooks, logged metrics and images and the trained model(s) in ONNX format.
+This repository is configured to run the pipeline for all pull requests, see experiment tracking site linked above. Alternatively, a pipeline's full output, can be inspected by downloading a zip build artefact for a recent build, [link](https://github.com/composable-logs/mnist-digits-demo-pipeline/actions/workflows/ci.yml). The zip files contain rendered notebooks, logged metrics and images and the trained model(s) in ONNX format.
 
 ## Ways to run the pipeline
 ### (1) Run as part of repo's automated CI pipeline
@@ -107,7 +107,7 @@ To run the pipeline (eg. locally) one needs to install git, make and Docker.
 
 First, clone the demo pipeline repository
 ```bash
-git clone --recurse-submodules git@github.com:pynb-dag-runner/mnist-digits-demo-pipeline.git
+git clone --recurse-submodules git@github.com:composable-logs/mnist-digits-demo-pipeline.git
 ```
 
 Now the pipeline can be run as follows:
@@ -123,7 +123,7 @@ This above steps are essentially what is run by the CI-automation (although that
 
 ### (3) Pipeline development setup
 
-This repo is set up for pipeline development using Jupyter notebook via VS Code's remote containers. This is similar to the setup for developing the [pynb-dag-runner](https://github.com/pynb-dag-runner/pynb-dag-runner) library.
+This repo is set up for pipeline development using Jupyter notebook via VS Code's remote containers. This is similar to the setup for developing the [composable-logs](https://github.com/composable-logs/composable-logs) library.
 
 The list of development tasks in VS Code, are defined [here](workspace/.vscode/tasks.json). The key task is `mnist-demo-pipeline - watch and run all tasks` which runs the entire pipeline in watch mode, and runs black and mypy static code analysis on the pipeline notebook codes (also in watch mode).
 
@@ -131,7 +131,7 @@ The list of development tasks in VS Code, are defined [here](workspace/.vscode/t
 
 A motivation for this work is to make it easier to set up and work together on (open data) pipelines.
 
-If you would like to discuss an idea or have a question, please raise an [issue](https://github.com/pynb-dag-runner/mnist-digits-demo-pipeline/issues) or contact me via email.
+If you would like to discuss an idea or have a question, please raise an [issue](https://github.com/composable-logs/mnist-digits-demo-pipeline/issues) or contact me via email.
 
 This is WIP and any ideas/feedback are welcome.
 
