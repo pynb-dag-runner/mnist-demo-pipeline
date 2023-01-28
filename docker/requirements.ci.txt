@@ -14,3 +14,8 @@ mypy==0.991
 
 #
 composable-logs-snapshot
+
+# See:
+#   https://github.com/composable-logs/composable-logs/pull/212
+#   https://github.com/nteract/papermill/issues/711
+jupyter-client==7.3.5
