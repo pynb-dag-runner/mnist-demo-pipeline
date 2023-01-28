@@ -7,7 +7,7 @@
 # %%
 # ----------------- Parameters for interactive development --------------
 P = {
-    "pipeline.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
 }
 # %% tags=["parameters"]
 # - During automated runs parameters will be injected in the below cell -

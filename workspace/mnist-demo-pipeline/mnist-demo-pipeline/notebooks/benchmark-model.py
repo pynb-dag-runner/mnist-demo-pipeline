@@ -10,7 +10,7 @@
 # %%
 # ----------------- Parameters for interactive development --------------
 P = {
-    "pipeline.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
     "task.nr_train_images": 600,
 }
 # %% tags=["parameters"]
