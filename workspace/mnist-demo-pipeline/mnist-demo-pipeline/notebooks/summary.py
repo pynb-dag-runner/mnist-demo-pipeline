@@ -10,7 +10,7 @@
 # %%
 # ----------------- Parameters for interactive development --------------
 P = {
-    "pipeline.run_environment": "dev",
+    "workflow.run_environment": "dev",
 }
 # %% tags=["parameters"]
 # - During automated runs parameters will be injected in the below cell -
@@ -59,14 +59,14 @@ def get_model_benchmarks():
 
     """
     spans: Spans = Spans(_get_all_spans())
-    print(f"Found {len(spans)} spans")
+    print(f" - Found {len(spans)} spans")
 
     benchmark_spans = (
         spans
         # -
         .filter(["name"], "execute-task")
         # -
-        .filter(["attributes", "task.notebook"], "notebooks/benchmark-model.py")
+        .filter(["attributes", "task.notebook"], "benchmark-model.py")
     )
 
     result = []
@@ -96,6 +96,7 @@ def adjust_pandas(df):
 
 
 # %%
+
 df_data = adjust_pandas(pd.json_normalize(get_model_benchmarks()))
 
 # %%

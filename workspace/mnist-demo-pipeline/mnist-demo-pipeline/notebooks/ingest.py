@@ -7,8 +7,8 @@
 # %%
 # ----------------- Parameters for interactive development --------------
 P = {
-    "pipeline.run_environment": "dev",
-    "pipeline.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "dev",
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
     "run.retry_nr": "1",
 }
 # %% tags=["parameters"]
