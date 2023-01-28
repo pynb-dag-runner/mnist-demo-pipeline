@@ -66,7 +66,7 @@ NR_TRAIN_IMAGES_LIST: List[int] = []
 
 if args().run_environment == "ci":
     NR_TRAIN_IMAGES_LIST = [600, 800, 1000, 1200]
-if args().run_environment == "dev":
+elif args().run_environment == "dev":
     NR_TRAIN_IMAGES_LIST = [400, 500, 600]
 else:
     raise ValueError(f"Unknown environment {args().run_environment}")
