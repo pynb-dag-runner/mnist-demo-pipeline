@@ -1,6 +1,3 @@
-# Docker image for CI/CD:
-#  - automated testing and building pynb-dag-runner library in Github.
-
 FROM mnist-demo-pipeline-base
 
 COPY requirements.ci.txt /home/host_user/

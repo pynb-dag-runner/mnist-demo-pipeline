@@ -23,7 +23,7 @@ create-pipeline-run-summary:
 	)
 
 expand-opentelemetry-spans-into-directory-structure:
-	@echo "*** Expanding pipeline OpenTelemetry spans into a directory structure for manual inspection ... ***"
+	@echo "*** Expanding OpenTelemetry spans into a directory structure for manual inspection ... ***"
 	pynb_log_parser \
 	    --input_span_file               /pipeline-outputs/opentelemetry-spans.json \
 	    --output_directory              /pipeline-outputs/pipeline-outputs \

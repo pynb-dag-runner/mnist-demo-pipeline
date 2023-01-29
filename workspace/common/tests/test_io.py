@@ -16,7 +16,7 @@ from common.io import (
 
 
 def test_datalake_root():
-    P = {"pipeline.data_lake_root": "/foo/bar"}
+    P = {"workflow.data_lake_root": "/foo/bar"}
 
     assert datalake_root(P) == Path("/foo/bar")
 

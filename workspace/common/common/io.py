@@ -14,7 +14,7 @@ rt.set_seed(0)
 
 
 def datalake_root(P):
-    return Path(P["pipeline.data_lake_root"])
+    return Path(P["workflow.data_lake_root"])
 
 
 def write_numpy(path: Path, numpy_obj):

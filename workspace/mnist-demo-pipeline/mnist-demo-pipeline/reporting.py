@@ -5,8 +5,9 @@ import json
 from pathlib import Path
 
 #
+from pynb_dag_runner import version_string
 from pynb_dag_runner.opentelemetry_helpers import Spans
-from pynb_dag_runner.opentelemetry_task_span_parser import get_pipeline_iterators
+from pynb_dag_runner.opentelemetry_task_span_parser import parse_spans
 
 from otel_output_parser.mermaid_graphs import (
     make_mermaid_dag_inputfile,
@@ -37,20 +38,20 @@ def load_spans() -> Spans:
 
 
 def get_pipeline_attributes(spans: Spans):
-    pipeline_metadata, _ = get_pipeline_iterators(spans)
-    return pipeline_metadata["attributes"]
+    return parse_spans(spans).attributes
 
 
 def is_remote_run(spans: Spans) -> bool:
     """
-    Is the logged spans from a run a Github CI/CD pipeline?
+    Where the logged spans executed on Github?
     """
     return {
-        "pipeline.github.repository",
-        "pipeline.pipeline_run_id",
+        "workflow.github.repository",
+        "workflow.workflow_run_id",
     } <= get_pipeline_attributes(spans).keys()
 
 
+print(f"--- demo pipeline reporting {version_string()} ---")
 print(f"  - input_otel_spans_json_file  : {args().input_otel_spans_json_file}")
 print(f"  - output_markdown_file        : {args().output_markdown_file}")
 
@@ -60,10 +61,10 @@ def get_url_to_this_run(spans: Spans) -> Optional[str]:
 
     pipeline_attributes = get_pipeline_attributes(spans)
 
-    repo_owner, repo_name = pipeline_attributes["pipeline.github.repository"].split("/")
-    run_id = pipeline_attributes["pipeline.pipeline_run_id"]
+    repo_owner, repo_name = pipeline_attributes["workflow.github.repository"].split("/")
+    run_id = pipeline_attributes["workflow.workflow_run_id"]
 
-    return f"https://{repo_owner}.github.io/{repo_name}/#/experiments/all-pipelines-runs/runs/{run_id}"
+    return f"https://{repo_owner}.github.io/{repo_name}/#/experiments/all-workflow-runs/runs/{run_id}"
 
 
 def make_markdown_report(spans: Spans) -> str:
