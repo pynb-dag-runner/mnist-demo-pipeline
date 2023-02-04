@@ -66,7 +66,7 @@ def get_model_benchmarks():
         # -
         .filter(["name"], "execute-task")
         # -
-        .filter(["attributes", "task.notebook"], "benchmark-model.py")
+        .filter(["attributes", "task.id"], "benchmark-model")
     )
 
     result = []

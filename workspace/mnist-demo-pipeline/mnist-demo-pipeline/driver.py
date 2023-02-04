@@ -92,12 +92,16 @@ def get_notebook(notebook_filename: str) -> JupytextNotebookContent:
     )
 
 
-task_ingest = make_jupytext_task(
-    notebook=get_notebook("ingest.py"),
-    timeout_s=600.0,
-    num_cpus=2,
-    parameters=GLOBAL_PARAMETERS,
-)()
+from tasks import ingest
+
+# task_ingest = make_jupytext_task(
+#     notebook=get_notebook("ingest.py"),
+#     timeout_s=600.0,
+#     num_cpus=2,
+#     parameters=GLOBAL_PARAMETERS,
+# )()
+
+task_ingest = ingest()
 
 task_eda = make_jupytext_task(
     notebook=get_notebook("eda.py"),
@@ -142,7 +146,7 @@ dag_tasks_to_await = [task_eda, task_summary]
 print("--- Start computation of the mnist-demo-trainer workflow ---")
 
 with SpanRecorder() as rec:
-    run_dag(dag_tasks_to_await)
+    run_dag(dag_tasks_to_await, workflow_parameters=GLOBAL_PARAMETERS)
 
 ray.shutdown()
 
