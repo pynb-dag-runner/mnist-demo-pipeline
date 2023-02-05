@@ -1,12 +1,12 @@
 # `mnist-digits-demo-pipeline`
 
-This repository contains a demo machine learning pipeline implemented using the Composable Logs framework.
+This repository contains a demo machine learning pipeline implemented using the [Composable Logs](https://github.com/composable-logs/composable-logs) framework.
 
 This demo pipeline:
  - trains a model for predicting digits 0, ..., 9 from a handwritten image of the digit. The data is a small data set included in sklearn library.
- - runs daily using Github actions, but does not require any other cloud infrastructure. Ie., the pipeline runs serverless using only services from a (free) personal Github account:
+ - runs daily using Github actions, but does not require any other cloud infrastructure. Rather it uses:
     - **Github Actions:** orchestration and compute
-    - **Github Build Artifacts:** persisting pipeline run results (using the OpenTelemetry open standard)
+    - **Github Build Artifacts:** to persist pipeline run results (using the OpenTelemetry open standard)
     - **Github Pages:** static website for model/experiment tracking, [demo site](https://composable-logs.github.io/mnist-digits-demo-pipeline/). This is built using custom fork of MLFlow.
  - development is supported by both CI automation and local development tools.
     - This repository is configured to run the pipeline for all pull requests, see experiment tracking site linked above.
