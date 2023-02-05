@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 
 
 #
-from pynb_dag_runner.tasks.task_opentelemetry_logging import PydarLogger
+from composable_logs.tasks.task_opentelemetry_logging import PydarLogger
 
 #
 from common.io import datalake_root, read_numpy

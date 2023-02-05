@@ -6,7 +6,7 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
 # -
-from pynb_dag_runner.wrappers import task, TaskContext
+from composable_logs.wrappers import task, TaskContext
 
 # -
 from common.io import read_numpy, write_numpy

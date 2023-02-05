@@ -29,17 +29,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #
-from pynb_dag_runner.tasks.task_opentelemetry_logging import PydarLogger
+from composable_logs.tasks.task_opentelemetry_logging import PydarLogger
 
 # %%
 logger = PydarLogger(P=P)
 
 # %%
-from pynb_dag_runner.tasks.task_opentelemetry_logging import (
+from composable_logs.tasks.task_opentelemetry_logging import (
     PydarLogger,
     get_logged_values,
 )
-from pynb_dag_runner.opentelemetry_helpers import _get_all_spans, Spans
+from composable_logs.opentelemetry_helpers import _get_all_spans, Spans
 
 
 # %%
