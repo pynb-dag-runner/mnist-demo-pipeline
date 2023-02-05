@@ -165,7 +165,6 @@ def train_model(nr_train_images: int, train_split, C: TaskContext):
         model, initial_types=[("float_input_8x8_image", FloatTensorType([None, 8 * 8]))]
     )
 
-    assert isinstance(datalake_root, Path)
     output_path: Path = (
         datalake_root / "models" / f"nr_train_images={nr_train_images}" / "model.onnx"
     )
