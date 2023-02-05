@@ -3,7 +3,6 @@ FROM mnist-demo-pipeline-base
 COPY requirements.ci.txt /home/host_user/
 RUN pip3 install \
         --user \
-        --quiet \
         -r /home/host_user/requirements.ci.txt
 
 ENV MYPY_CACHE_DIR=/home/host_user/.cache/mypy

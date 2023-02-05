@@ -13,7 +13,7 @@ from pynb_dag_runner.opentelemetry_helpers import SpanRecorder
 from pynb_dag_runner.run_pipeline_helpers import get_github_env_variables
 from pynb_dag_runner.notebooks_helpers import JupytextNotebookContent
 
-from pynb_dag_runner.helpers import write_json
+from pynb_dag_runner.helpers import one, Try, Failure, Success, write_json
 from pynb_dag_runner.wrappers import task, run_dag
 
 print(f"--- Running: demo-train-mnist-ml-model-pipeline ---")
@@ -92,14 +92,7 @@ def get_notebook(notebook_filename: str) -> JupytextNotebookContent:
     )
 
 
-from tasks import ingest
-
-# task_ingest = make_jupytext_task(
-#     notebook=get_notebook("ingest.py"),
-#     timeout_s=600.0,
-#     num_cpus=2,
-#     parameters=GLOBAL_PARAMETERS,
-# )()
+from tasks import ingest, split_train_test
 
 task_ingest = ingest()
 
@@ -108,13 +101,10 @@ task_eda = make_jupytext_task(
     parameters=GLOBAL_PARAMETERS,
 )(task_ingest)
 
-task_split_train_test = make_jupytext_task(
-    notebook=get_notebook("split-train-test.py"),
-    parameters={
-        **GLOBAL_PARAMETERS,
-        "task.train_test_ratio": 0.7,
-    },
-)(task_ingest)
+task_train_test_split = split_train_test(
+    Success(0.7),  # train-test split ratio
+    task_ingest,
+)
 
 
 def make_train_and_benchmark_model_task(nr_train_images):
@@ -131,7 +121,7 @@ def make_train_and_benchmark_model_task(nr_train_images):
         parameters=task_parameters,
     )
 
-    return task_benchmark(task_train(task_split_train_test))
+    return task_benchmark(task_train(task_train_test_split))
 
 
 # run summary job after all train_and_benchmark tasks have finished
