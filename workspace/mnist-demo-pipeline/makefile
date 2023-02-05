@@ -6,7 +6,7 @@ run-pipeline:
 	@echo " - environment variable RUN_ENVIRONMENT: ${RUN_ENVIRONMENT}"
 	( \
 	    cd mnist-demo-pipeline; \
-	    python3 -u -m driver.py \
+	    python3 -u driver.py \
 	        --data_lake_root /pipeline-outputs/data-lake \
 	        --otel_spans_outputfile /pipeline-outputs/opentelemetry-spans.json \
 	        --run_environment ${RUN_ENVIRONMENT} \

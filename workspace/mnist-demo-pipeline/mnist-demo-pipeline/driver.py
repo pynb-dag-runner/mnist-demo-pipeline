@@ -13,8 +13,13 @@ from pynb_dag_runner.opentelemetry_helpers import SpanRecorder
 from pynb_dag_runner.run_pipeline_helpers import get_github_env_variables
 from pynb_dag_runner.notebooks_helpers import JupytextNotebookContent
 
-from pynb_dag_runner.helpers import one, Try, Failure, Success, write_json
-from pynb_dag_runner.wrappers import task, run_dag
+from pynb_dag_runner.helpers import Success, write_json
+from pynb_dag_runner.wrappers import run_dag
+
+# ---
+
+from tasks import ingest, split_train_test, train_model
+
 
 print(f"--- Running: demo-train-mnist-ml-model-pipeline ---")
 print(f"--- Initialize Ray cluster ---")
@@ -81,62 +86,63 @@ print(f"  - training for training set sizes : {NR_TRAIN_IMAGES_LIST}")
 
 print("--- Setting up tasks and task dependencies ---")
 
-# Note: the below steps does not start any computation.
-# They only set up the compute dag.
 
+def get_dag():
+    """
+    Return a DAG that represents compute steps for the demo pipeline.
 
-def get_notebook(notebook_filename: str) -> JupytextNotebookContent:
-    return JupytextNotebookContent(
-        filepath=notebook_filename,
-        content=(Path(__file__).parent / "notebooks" / notebook_filename).read_text(),
+    In more detail: return the DAG endpoints that should be awaited for the DAG to
+    complete.
+
+    Note: setting up the DAG does not do any computation.
+
+    The DAG contains both pure Python and Jupytext notebook tasks;
+      model-benchmarking and summary stage are Jupytext notebooks since these
+      contain plots and tables.
+    """
+
+    def get_notebook(notebook_filename: str) -> JupytextNotebookContent:
+        return JupytextNotebookContent(
+            filepath=notebook_filename,
+            content=(
+                Path(__file__).parent / "notebooks" / notebook_filename
+            ).read_text(),
+        )
+
+    task_ingest = ingest()
+
+    task_eda = make_jupytext_task(
+        notebook=get_notebook("eda.py"),
+        parameters=GLOBAL_PARAMETERS,
+    )(task_ingest)
+
+    task_train_test_split = split_train_test(
+        Success(0.7),  # train-test split ratio
+        task_ingest,
     )
 
+    def make_train_and_benchmark_model_task(nr_train_images):
+        task_train_model = train_model(Success(nr_train_images), task_train_test_split)
 
-from tasks import ingest, split_train_test
+        nb_task_benchmark = make_jupytext_task(
+            notebook=get_notebook("benchmark-model.py"),
+            parameters={"task.nr_train_images": nr_train_images},
+        )
 
-task_ingest = ingest()
+        return nb_task_benchmark(task_train_model)
 
-task_eda = make_jupytext_task(
-    notebook=get_notebook("eda.py"),
-    parameters=GLOBAL_PARAMETERS,
-)(task_ingest)
+    # run summary job after all train_and_benchmark tasks have finished
+    nb_task_summary = make_jupytext_task(
+        notebook=get_notebook("summary.py"), parameters={}
+    )(*[make_train_and_benchmark_model_task(k) for k in NR_TRAIN_IMAGES_LIST])
 
-task_train_test_split = split_train_test(
-    Success(0.7),  # train-test split ratio
-    task_ingest,
-)
-
-
-def make_train_and_benchmark_model_task(nr_train_images):
-    task_parameters = {**GLOBAL_PARAMETERS, "task.nr_train_images": nr_train_images}
-    task_train = make_jupytext_task(
-        notebook=get_notebook("train-model.py"),
-        timeout_s=120.0,
-        num_cpus=1,
-        parameters=task_parameters,
-    )
-
-    task_benchmark = make_jupytext_task(
-        notebook=get_notebook("benchmark-model.py"),
-        parameters=task_parameters,
-    )
-
-    return task_benchmark(task_train(task_train_test_split))
-
-
-# run summary job after all train_and_benchmark tasks have finished
-task_summary = make_jupytext_task(notebook=get_notebook("summary.py"), parameters={})(
-    *[make_train_and_benchmark_model_task(k) for k in NR_TRAIN_IMAGES_LIST]
-)
-
-
-dag_tasks_to_await = [task_eda, task_summary]
+    return [task_eda, nb_task_summary]
 
 
 print("--- Start computation of the mnist-demo-trainer workflow ---")
 
 with SpanRecorder() as rec:
-    run_dag(dag_tasks_to_await, workflow_parameters=GLOBAL_PARAMETERS)
+    run_dag(get_dag(), workflow_parameters=GLOBAL_PARAMETERS)
 
 ray.shutdown()
 
