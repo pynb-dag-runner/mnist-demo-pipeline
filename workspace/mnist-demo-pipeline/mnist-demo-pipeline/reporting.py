@@ -5,9 +5,9 @@ import json
 from pathlib import Path
 
 #
-from pynb_dag_runner import version_string
-from pynb_dag_runner.opentelemetry_helpers import Spans
-from pynb_dag_runner.opentelemetry_task_span_parser import parse_spans
+from composable_logs import version_string
+from composable_logs.opentelemetry_helpers import Spans
+from composable_logs.opentelemetry_task_span_parser import parse_spans
 
 from otel_output_parser.mermaid_graphs import (
     make_mermaid_dag_inputfile,

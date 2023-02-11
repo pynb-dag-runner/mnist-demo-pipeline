@@ -7,14 +7,14 @@ from typing import List
 import ray
 
 #
-from pynb_dag_runner import version_string
-from pynb_dag_runner.tasks.tasks import make_jupytext_task
-from pynb_dag_runner.opentelemetry_helpers import SpanRecorder
-from pynb_dag_runner.run_pipeline_helpers import get_github_env_variables
-from pynb_dag_runner.notebooks_helpers import JupytextNotebookContent
+from composable_logs import version_string
+from composable_logs.tasks.tasks import make_jupytext_task
+from composable_logs.opentelemetry_helpers import SpanRecorder
+from composable_logs.run_pipeline_helpers import get_github_env_variables
+from composable_logs.notebooks_helpers import JupytextNotebookContent
 
-from pynb_dag_runner.helpers import Success, write_json
-from pynb_dag_runner.wrappers import run_dag
+from composable_logs.helpers import Success, write_json
+from composable_logs.wrappers import run_dag
 
 # ---
 
