@@ -13,7 +13,7 @@ black==22.12.0
 mypy==0.991
 
 #
-composable-logs-snapshot
+composable-logs==0.0.11
 
 # See
 #   https://github.com/composable-logs/composable-logs/pull/212
