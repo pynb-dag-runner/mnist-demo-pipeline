@@ -126,7 +126,7 @@ jobs:
           path: |
               ${{ github.workspace }}/pipeline-outputs/opentelemetry-spans.json
           if-no-files-found: error
-          retention-days: 20
+          retention-days: 14
 
       - name: "Create custom (Markdown) pipeline summary to show in Github actions page"
         run: |
@@ -162,4 +162,4 @@ jobs:
               !**/.gitkeep
               !opentelemetry-spans.json
           if-no-files-found: error
-          retention-days: 5
+          retention-days: 14
