@@ -32,12 +32,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #
-from composable_logs.tasks.task_opentelemetry_logging import PydarLogger
+from composable_logs.tasks.task_opentelemetry_logging import get_task_context
 
 #
 from common.io import datalake_root
 
-logger = PydarLogger(P)
+ctx = get_task_context(P)
 
 # %% [markdown]
 # ## Load persisted onnx-model and evaluation data
@@ -47,9 +47,9 @@ from common.io import read_onnx, get_onnx_inputs, get_onnx_outputs, read_numpy
 
 # %%
 onnx_inference_session = read_onnx(
-    datalake_root(P)
+    datalake_root(ctx)
     / "models"
-    / f"nr_train_images={P['task.nr_train_images']}"
+    / f"nr_train_images={ctx.parameters['task.nr_train_images']}"
     / "model.onnx"
 )
 # %% [markdown]
@@ -69,7 +69,7 @@ onnx_io = json.dumps(
 )
 
 
-logger.log_artefact("onnx_io_structure.json", onnx_io)
+ctx.log_artefact("onnx_io_structure.json", onnx_io)
 print(onnx_io)
 
 # %% [markdown]
@@ -77,8 +77,8 @@ print(onnx_io)
 
 # %%
 # load evaluation data
-X_test = read_numpy(datalake_root(P) / "test-data" / "digits.numpy")
-y_test = read_numpy(datalake_root(P) / "test-data" / "labels.numpy")
+X_test = read_numpy(datalake_root(ctx) / "test-data" / "digits.numpy")
+y_test = read_numpy(datalake_root(ctx) / "test-data" / "labels.numpy")
 
 
 # %%
@@ -151,7 +151,7 @@ fig = plot_per_digit_probabilities(y_pred_probs_test)
 # being roughly evenly distributed in the data.
 
 # %%
-logger.log_figure("per-digit-probabilities.png", fig)
+ctx.log_figure("per-digit-probabilities.png", fig)
 
 # %% [markdown]
 # ### Plot ROC curves for individual one-vs-rest classifiers
@@ -204,13 +204,13 @@ def plot_roc_curves(y, y_pred_probs):
 roc_auc_dict, fig = plot_roc_curves(y_test, y_pred_probs_test)
 
 # %%
-logger.log_figure("per-digit-roc-curves.png", fig)
+ctx.log_figure("per-digit-roc-curves.png", fig)
 
 # %%
 roc_auc_dict
 
 # %%
-logger.log_value("roc_auc_per_digit", roc_auc_dict)
+ctx.log_value("roc_auc_per_digit", roc_auc_dict)
 
 # %% [markdown]
 # ### Compute and log mean ROC AUC score averaged over all digits
@@ -218,7 +218,7 @@ logger.log_value("roc_auc_per_digit", roc_auc_dict)
 # %%
 roc_auc_macro = np.mean(list(roc_auc_dict.values()))
 
-logger.log_float("roc_auc_class_mean", roc_auc_macro)
+ctx.log_float("roc_auc_class_mean", roc_auc_macro)
 
 # assert that the same value can be computed directly using sklearn
 assert roc_auc_macro == metrics.roc_auc_score(

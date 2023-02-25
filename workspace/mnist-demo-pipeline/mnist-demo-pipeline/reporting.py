@@ -1,10 +1,10 @@
 from typing import Optional
 
-#
+# -
 import json
 from pathlib import Path
 
-#
+# -
 from composable_logs import version_string
 from composable_logs.opentelemetry_helpers import Spans
 from composable_logs.opentelemetry_task_span_parser import parse_spans

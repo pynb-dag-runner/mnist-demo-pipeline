@@ -1,9 +1,13 @@
 from pathlib import Path
 
-#
+# -
 import numpy as np
 
-#
+
+# -
+from composable_logs.tasks.task_opentelemetry_logging import ComposableLogsLogger
+
+# -
 from common.io import (
     write_numpy,
     read_numpy,
@@ -16,9 +20,8 @@ from common.io import (
 
 
 def test_datalake_root():
-    P = {"workflow.data_lake_root": "/foo/bar"}
-
-    assert datalake_root(P) == Path("/foo/bar")
+    ctx = ComposableLogsLogger({"workflow.data_lake_root": "/foo/bar"})
+    assert datalake_root(ctx) == Path("/foo/bar")
 
 
 def test_numpy_read_write(tmp_path: Path):

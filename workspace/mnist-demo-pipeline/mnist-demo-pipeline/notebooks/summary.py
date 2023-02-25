@@ -29,16 +29,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #
-from composable_logs.tasks.task_opentelemetry_logging import PydarLogger
+from composable_logs.tasks.task_opentelemetry_logging import get_task_context
 
 # %%
-logger = PydarLogger(P=P)
+logger = get_task_context(P)
 
 # %%
-from composable_logs.tasks.task_opentelemetry_logging import (
-    PydarLogger,
-    get_logged_values,
-)
+from composable_logs.tasks.task_opentelemetry_logging import get_logged_values
 from composable_logs.opentelemetry_helpers import _get_all_spans, Spans
 
 
