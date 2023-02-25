@@ -23,24 +23,24 @@ P = {
 # %%
 from typing import Dict, Tuple
 
-#
+# -
 import collections
 import matplotlib.pyplot as plt
 
 
-#
-from composable_logs.tasks.task_opentelemetry_logging import PydarLogger
+# -
+from composable_logs.tasks.task_opentelemetry_logging import get_task_context
 
-#
+# -
 from common.io import datalake_root, read_numpy
 
 
 # %%
-logger = PydarLogger(P)
+ctx = get_task_context(P)
 
 # %%
-X = read_numpy(datalake_root(P) / "raw" / "digits.numpy")
-y = read_numpy(datalake_root(P) / "raw" / "labels.numpy")
+X = read_numpy(datalake_root(ctx) / "raw" / "digits.numpy")
+y = read_numpy(datalake_root(ctx) / "raw" / "labels.numpy")
 
 # %% [markdown]
 # ## Check shapes of digit image and label vectors
@@ -59,8 +59,8 @@ assert X.shape[0] == len(y) == y.shape[0]
 assert X.shape[1] == 8 * 8
 
 # %%
-logger.log_int("nr_digits", len(y))
-logger.log_int("pixels_per_digit", int(X.shape[1]))
+ctx.log_int("nr_digits", len(y))
+ctx.log_int("pixels_per_digit", int(X.shape[1]))
 
 
 # %% [markdown]
@@ -104,7 +104,7 @@ assert set(y) == set(range(10))
 # %%
 digit_counts: Dict[int, int] = dict(collections.Counter(y))
 
-logger.log_value("counts_per_digit", {str(k): v for k, v in digit_counts.items()})
+ctx.log_value("counts_per_digit", {str(k): v for k, v in digit_counts.items()})
 
 # %%
 fig = plot_dict_to_barplot(
@@ -115,7 +115,7 @@ fig = plot_dict_to_barplot(
 )
 
 # %%
-logger.log_figure("logged-images/samples_per_digit.png", fig)
+ctx.log_figure("logged-images/samples_per_digit.png", fig)
 
 # %% [markdown]
 # - All digits 0, 1, ..., 8, 9 are (approximatively) equally represented in the data set
@@ -142,7 +142,7 @@ fig = plot_dict_to_barplot(
 )
 
 # %%
-logger.log_figure("logged-images/pixel_value_counts.png", fig)
+ctx.log_figure("logged-images/pixel_value_counts.png", fig)
 
 # %% [markdown]
 # - The pixel values in the images are encoded with numbers 0, .., 16.
@@ -172,7 +172,7 @@ for digit in range(10):
     fig.tight_layout()
     fig.show()
 
-    logger.log_figure(f"logged-images/digits/{digit}-images.png", fig)
+    ctx.log_figure(f"logged-images/digits/{digit}-images.png", fig)
 
 # %%
 ###

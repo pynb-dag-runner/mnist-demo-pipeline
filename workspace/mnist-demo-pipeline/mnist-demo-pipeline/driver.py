@@ -27,7 +27,10 @@ print(f"--- Initialize Ray cluster ---")
 # Setup Ray and enable tracing using default OpenTelemetry support; traces are
 # written to files /tmp/spans/<pid>.txt in JSON format.
 shutil.rmtree("/tmp/spans", ignore_errors=True)
-ray.init(_tracing_startup_hook="ray.util.tracing.setup_local_tmp_tracing:setup_tracing")
+ray.init(
+    namespace="pydar-ray-cluster",
+    _tracing_startup_hook="ray.util.tracing.setup_local_tmp_tracing:setup_tracing",
+)
 
 print("--- Determining input and context variables ---")
 print(f"  - Composable Logs version {version_string()}")

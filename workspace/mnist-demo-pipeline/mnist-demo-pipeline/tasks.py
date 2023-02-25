@@ -6,27 +6,29 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
 # -
-from composable_logs.wrappers import task, TaskContext
+from composable_logs.wrappers import task
+from composable_logs.tasks.task_opentelemetry_logging import get_task_context
 
 # -
 from common.io import read_numpy, write_numpy
 
 
 @task(task_id="ingest", timeout_s=30.0, num_cpus=1)
-def ingest(C: TaskContext):
+def ingest():
     """
     Ingest toy version of MNIST digit data from sklearn
 
     """
+    ctx = get_task_context()
     digits = datasets.load_digits()
 
     X = digits["data"]
     y = digits["target"]
 
-    C.log_value("data_shape", list(X.shape))
-    C.log_value("target_shape", list(y.shape))
+    ctx.log_value("data_shape", list(X.shape))
+    ctx.log_value("target_shape", list(y.shape))
 
-    datalake_root = Path(C.parameters["workflow.data_lake_root"])
+    datalake_root = Path(ctx.parameters["workflow.data_lake_root"])
     write_numpy(datalake_root / "raw" / "digits.numpy", X)
     write_numpy(datalake_root / "raw" / "labels.numpy", y)
 
@@ -34,10 +36,12 @@ def ingest(C: TaskContext):
 
 
 @task(task_id="split_train_test", timeout_s=30.0, num_cpus=1)
-def split_train_test(train_test_ratio: float, ingested_data, C: TaskContext):
+def split_train_test(train_test_ratio: float, ingested_data):
     """
     Split digits and labels into separate training and testing data sets
     """
+    ctx = get_task_context()
+
     X = ingested_data["X"]
     y = ingested_data["y"]
 
@@ -61,11 +65,11 @@ def split_train_test(train_test_ratio: float, ingested_data, C: TaskContext):
     # assert that all data is used
     assert len(y) == len(y_train) + len(y_test)
 
-    C.log_int("nr_digits_train", len(y_train))
-    C.log_int("nr_digits_test", len(y_test))
+    ctx.log_int("nr_digits_train", len(y_train))
+    ctx.log_int("nr_digits_test", len(y_test))
 
     # Persist training and test data sets to separate files
-    datalake_root = Path(C.parameters["workflow.data_lake_root"])
+    datalake_root = Path(ctx.parameters["workflow.data_lake_root"])
     write_numpy(datalake_root / "train-data" / "digits.numpy", X_train)
     write_numpy(datalake_root / "train-data" / "labels.numpy", y_train)
 
@@ -108,7 +112,7 @@ def load_and_limit_train_data(nr_train_images: int, datalake_root: Path):
 
 
 @task(task_id="train_model", timeout_s=60.0, num_cpus=1)
-def train_model(nr_train_images: int, train_split, C: TaskContext):
+def train_model(nr_train_images: int, train_split):
     """
     Train support vector classifier model
 
@@ -124,13 +128,15 @@ def train_model(nr_train_images: int, train_split, C: TaskContext):
     Note: cv-scores would need to be computed here, since they depend on the train data.
     After this notebook only the onnx-model is available.
     """
+    ctx = get_task_context()
+
     from sklearn.svm import SVC
     from skl2onnx import convert_sklearn
     from skl2onnx.common.data_types import FloatTensorType
 
     from common.io import write_onnx
 
-    datalake_root = Path(C.parameters["workflow.data_lake_root"])
+    datalake_root = Path(ctx.parameters["workflow.data_lake_root"])
 
     train = load_and_limit_train_data(nr_train_images, datalake_root)
     X_train, y_train = train["X"], train["y"]
@@ -150,7 +156,7 @@ def train_model(nr_train_images: int, train_split, C: TaskContext):
 
     # If the predicted labels would coincide with the labels that have
     # maximum probability, the below number would be zero. Typically it is not.
-    C.log_int(
+    ctx.log_int(
         "nr_max_prob_neq_label", int(sum(y_train_max_prob_labels != y_train_labels))
     )
 
@@ -170,4 +176,4 @@ def train_model(nr_train_images: int, train_split, C: TaskContext):
     )
     write_onnx(output_path, model_onnx)
 
-    C.log_artefact("model.onnx", output_path.read_bytes())
+    ctx.log_artefact("model.onnx", output_path.read_bytes())

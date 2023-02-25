@@ -13,8 +13,8 @@ rt.disable_telemetry_events()
 rt.set_seed(0)
 
 
-def datalake_root(P):
-    return Path(P["workflow.data_lake_root"])
+def datalake_root(ctx):
+    return Path(ctx.parameters["workflow.data_lake_root"])
 
 
 def write_numpy(path: Path, numpy_obj):
