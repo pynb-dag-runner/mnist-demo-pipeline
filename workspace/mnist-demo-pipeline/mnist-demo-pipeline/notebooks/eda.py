@@ -22,11 +22,11 @@ P = {
 
 # %%
 from typing import Dict, Tuple
+import collections
 
 # -
-import collections
 import matplotlib.pyplot as plt
-
+import mlflow
 
 # -
 from composable_logs.tasks.task_opentelemetry_logging import get_task_context
@@ -36,7 +36,8 @@ from common.io import datalake_root, read_numpy
 
 
 # %%
-ctx = get_task_context(P)
+# start custom MLFlow server that captures logged data and outputs OpenTelemetry events
+ctx = get_task_context(P, use_mlflow_for_logging=True)
 
 # %%
 X = read_numpy(datalake_root(ctx) / "raw" / "digits.numpy")
@@ -59,8 +60,8 @@ assert X.shape[0] == len(y) == y.shape[0]
 assert X.shape[1] == 8 * 8
 
 # %%
-ctx.log_int("nr_digits", len(y))
-ctx.log_int("pixels_per_digit", int(X.shape[1]))
+mlflow.log_param("nr_digits", len(y))
+mlflow.log_param("pixels_per_digit", int(X.shape[1]))
 
 
 # %% [markdown]
@@ -104,7 +105,7 @@ assert set(y) == set(range(10))
 # %%
 digit_counts: Dict[int, int] = dict(collections.Counter(y))
 
-ctx.log_value("counts_per_digit", {str(k): v for k, v in digit_counts.items()})
+mlflow.log_dict({str(k): v for k, v in digit_counts.items()}, "counts_per_digit.txt")
 
 # %%
 fig = plot_dict_to_barplot(
@@ -115,7 +116,7 @@ fig = plot_dict_to_barplot(
 )
 
 # %%
-ctx.log_figure("logged-images/samples_per_digit.png", fig)
+mlflow.log_figure(fig, "logged-images/samples_per_digit.png")
 
 # %% [markdown]
 # - All digits 0, 1, ..., 8, 9 are (approximatively) equally represented in the data set
@@ -142,7 +143,7 @@ fig = plot_dict_to_barplot(
 )
 
 # %%
-ctx.log_figure("logged-images/pixel_value_counts.png", fig)
+mlflow.log_figure(fig, "logged-images/pixel_value_counts.png")
 
 # %% [markdown]
 # - The pixel values in the images are encoded with numbers 0, .., 16.
@@ -172,7 +173,7 @@ for digit in range(10):
     fig.tight_layout()
     fig.show()
 
-    ctx.log_figure(f"logged-images/digits/{digit}-images.png", fig)
+    mlflow.log_figure(fig, f"logged-images/digits/{digit}-images.png")
 
 # %%
 ###
