@@ -1,0 +1,81 @@
+{
+  "span_id": "0xfba832ec3e3f4b89",
+  "parent_span_id": "456b62b5-f5da-4f36-b2fe-b3848fd05f0e",
+  "task_id": "benchmark-model",
+  "timing_start_iso8601": "2023-07-18T06:37:56.382166Z",
+  "timing_end_iso8601": "2023-07-18T06:38:09.793608Z",
+  "timing_duration_s": 13.411,
+  "is_success": true,
+  "exceptions": [],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "456b62b5-f5da-4f36-b2fe-b3848fd05f0e",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.run_id": "5584102173",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "task.nr_train_images": 800,
+    "task.id": "benchmark-model",
+    "task.type": "jupytext",
+    "task.num_cpus": 1,
+    "task.timeout_s": 60.0
+  },
+  "logged_values": {
+    "roc_auc_per_digit": {
+      "type": "json",
+      "value": {
+        "0": 1.0,
+        "1": 0.9988003748828491,
+        "2": 1.0,
+        "3": 0.9998125585754452,
+        "4": 0.9994665447340345,
+        "5": 0.9991377694470478,
+        "6": 0.999961896052431,
+        "7": 0.9998856881572931,
+        "8": 0.9925520176544766,
+        "9": 0.9994284407864655
+      }
+    },
+    "roc_auc_class_mean": {
+      "type": "float",
+      "value": 0.9989045290290042
+    }
+  },
+  "logged_artifacts": [
+    {
+      "name": "notebook.ipynb",
+      "type": "utf-8",
+      "length": 168400
+    },
+    {
+      "name": "notebook.html",
+      "type": "utf-8",
+      "length": 449198
+    },
+    {
+      "name": "onnx_io_structure.json",
+      "type": "utf-8",
+      "length": 398
+    },
+    {
+      "name": "per-digit-probabilities.png",
+      "type": "bytes",
+      "length": 47245
+    },
+    {
+      "name": "per-digit-roc-curves.png",
+      "type": "bytes",
+      "length": 58218
+    }
+  ]
+}

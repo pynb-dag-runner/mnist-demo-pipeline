@@ -1,0 +1,30 @@
+graph LR
+    %% Mermaid input file for drawing task dependencies 
+    %% See https://mermaid-js.github.io/mermaid
+    %%
+    TASK_SPAN_ID_0x9b85eb867fee80d8["ingest (Python task)"]
+    TASK_SPAN_ID_0x4d0868d0d11732e2["eda (Jupytext task)"]
+    TASK_SPAN_ID_0xbe2b462e263aa4e7["split_train_test (Python task)"]
+    TASK_SPAN_ID_0xf17258eed4d40752["train_model (Python task)"]
+    TASK_SPAN_ID_0x6013963e7db44a43["train_model (Python task)"]
+    TASK_SPAN_ID_0x96a75daaa8e26f31["train_model (Python task)"]
+    TASK_SPAN_ID_0xb7178f1ad4d62541["train_model (Python task)"]
+    TASK_SPAN_ID_0x49d162553b3c4bfb["benchmark-model (Jupytext task)"]
+    TASK_SPAN_ID_0x79593fb51d0e719a["benchmark-model (Jupytext task)"]
+    TASK_SPAN_ID_0x36500075080570a6["benchmark-model (Jupytext task)"]
+    TASK_SPAN_ID_0x86915d0df923da4f["benchmark-model (Jupytext task)"]
+    TASK_SPAN_ID_0x541e809426d5e1ab["summary (Jupytext task)"]
+    TASK_SPAN_ID_0x9b85eb867fee80d8 --> TASK_SPAN_ID_0x4d0868d0d11732e2
+    TASK_SPAN_ID_0x9b85eb867fee80d8 --> TASK_SPAN_ID_0xbe2b462e263aa4e7
+    TASK_SPAN_ID_0xbe2b462e263aa4e7 --> TASK_SPAN_ID_0x96a75daaa8e26f31
+    TASK_SPAN_ID_0xbe2b462e263aa4e7 --> TASK_SPAN_ID_0x6013963e7db44a43
+    TASK_SPAN_ID_0xbe2b462e263aa4e7 --> TASK_SPAN_ID_0xf17258eed4d40752
+    TASK_SPAN_ID_0x79593fb51d0e719a --> TASK_SPAN_ID_0x541e809426d5e1ab
+    TASK_SPAN_ID_0x86915d0df923da4f --> TASK_SPAN_ID_0x541e809426d5e1ab
+    TASK_SPAN_ID_0xb7178f1ad4d62541 --> TASK_SPAN_ID_0x36500075080570a6
+    TASK_SPAN_ID_0x49d162553b3c4bfb --> TASK_SPAN_ID_0x541e809426d5e1ab
+    TASK_SPAN_ID_0xf17258eed4d40752 --> TASK_SPAN_ID_0x49d162553b3c4bfb
+    TASK_SPAN_ID_0xbe2b462e263aa4e7 --> TASK_SPAN_ID_0xb7178f1ad4d62541
+    TASK_SPAN_ID_0x36500075080570a6 --> TASK_SPAN_ID_0x541e809426d5e1ab
+    TASK_SPAN_ID_0x96a75daaa8e26f31 --> TASK_SPAN_ID_0x79593fb51d0e719a
+    TASK_SPAN_ID_0x6013963e7db44a43 --> TASK_SPAN_ID_0x86915d0df923da4f

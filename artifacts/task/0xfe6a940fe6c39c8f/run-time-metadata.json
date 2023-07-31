@@ -1,0 +1,81 @@
+{
+  "span_id": "0xfe6a940fe6c39c8f",
+  "parent_span_id": "c8aa1dff-7cfb-4fb1-a070-f9faef7f5fa9",
+  "task_id": "benchmark-model",
+  "timing_start_iso8601": "2023-07-20T06:35:25.409823Z",
+  "timing_end_iso8601": "2023-07-20T06:35:58.542121Z",
+  "timing_duration_s": 33.132,
+  "is_success": true,
+  "exceptions": [],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "c8aa1dff-7cfb-4fb1-a070-f9faef7f5fa9",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.run_id": "5607680203",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "task.nr_train_images": 800,
+    "task.id": "benchmark-model",
+    "task.type": "jupytext",
+    "task.num_cpus": 1,
+    "task.timeout_s": 60.0
+  },
+  "logged_values": {
+    "roc_auc_per_digit": {
+      "type": "json",
+      "value": {
+        "0": 1.0,
+        "1": 0.9988378631677601,
+        "2": 1.0,
+        "3": 0.9998125585754452,
+        "4": 0.9995427526291724,
+        "5": 0.999025304592315,
+        "6": 0.999961896052431,
+        "7": 0.9998856881572931,
+        "8": 0.9935372005044136,
+        "9": 0.9993903368388964
+      }
+    },
+    "roc_auc_class_mean": {
+      "type": "float",
+      "value": 0.9989993600517726
+    }
+  },
+  "logged_artifacts": [
+    {
+      "name": "onnx_io_structure.json",
+      "type": "utf-8",
+      "length": 398
+    },
+    {
+      "name": "per-digit-probabilities.png",
+      "type": "bytes",
+      "length": 47463
+    },
+    {
+      "name": "per-digit-roc-curves.png",
+      "type": "bytes",
+      "length": 58039
+    },
+    {
+      "name": "notebook.ipynb",
+      "type": "utf-8",
+      "length": 168459
+    },
+    {
+      "name": "notebook.html",
+      "type": "utf-8",
+      "length": 449256
+    }
+  ]
+}

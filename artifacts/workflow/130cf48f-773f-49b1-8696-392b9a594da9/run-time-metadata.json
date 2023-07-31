@@ -1,0 +1,82 @@
+{
+  "span_id": "130cf48f-773f-49b1-8696-392b9a594da9",
+  "timing_start_iso8601": "2023-07-29T06:32:24.716575Z",
+  "timing_end_iso8601": "2023-07-29T06:33:31.213167Z",
+  "timing_duration_s": 66.497,
+  "task_dependencies": [
+    [
+      "0x297b649c4c357812",
+      "0xeac255946fdd977c"
+    ],
+    [
+      "0xcd849e5bd4cbf75c",
+      "0xfaa4aafb3e601c06"
+    ],
+    [
+      "0xecae0337a36a94b9",
+      "0xe8c65d44a2a9bb3b"
+    ],
+    [
+      "0x021534f6e8fc7a50",
+      "0xeb8fc51b002facfe"
+    ],
+    [
+      "0xcd849e5bd4cbf75c",
+      "0x297b649c4c357812"
+    ],
+    [
+      "0x021534f6e8fc7a50",
+      "0xcd849e5bd4cbf75c"
+    ],
+    [
+      "0xeac255946fdd977c",
+      "0x5f738bedb82fbda3"
+    ],
+    [
+      "0xfaa4aafb3e601c06",
+      "0x8a7d67c56d011f6b"
+    ],
+    [
+      "0xe8c65d44a2a9bb3b",
+      "0x5f738bedb82fbda3"
+    ],
+    [
+      "0x8a7d67c56d011f6b",
+      "0x5f738bedb82fbda3"
+    ],
+    [
+      "0xcd849e5bd4cbf75c",
+      "0xecae0337a36a94b9"
+    ],
+    [
+      "0xd303dee9bf346440",
+      "0x5f4277ab3d901870"
+    ],
+    [
+      "0xcd849e5bd4cbf75c",
+      "0xd303dee9bf346440"
+    ],
+    [
+      "0x5f4277ab3d901870",
+      "0x5f738bedb82fbda3"
+    ]
+  ],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "130cf48f-773f-49b1-8696-392b9a594da9",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.run_id": "5699012549",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2"
+  }
+}

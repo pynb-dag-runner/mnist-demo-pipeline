@@ -1,0 +1,33 @@
+gantt
+    %% Mermaid input file for drawing Gantt chart of runlog runtimes
+    %% See https://mermaid-js.github.io/mermaid/#/gantt
+    %%
+    axisFormat %H:%M
+    %%
+    %% Give timestamps as unix timestamps (ms)
+    dateFormat x
+    %%
+    section ingest (Python task)
+    2.17s - OK : , 1689834901 , 1689834903 
+    section eda (Jupytext task)
+    25.79s - OK : , 1689834903 , 1689834929 
+    section split_train_test (Python task)
+    2.35s - OK : , 1689834905 , 1689834908 
+    section train_model (Python task)
+    6.07s - OK : , 1689834908 , 1689834914 
+    section train_model (Python task)
+    6.99s - OK : , 1689834911 , 1689834918 
+    section train_model (Python task)
+    13.44s - OK : , 1689834911 , 1689834925 
+    section train_model (Python task)
+    9.96s - OK : , 1689834912 , 1689834921 
+    section benchmark-model (Jupytext task)
+    25.75s - OK : , 1689834914 , 1689834940 
+    section benchmark-model (Jupytext task)
+    25.35s - OK : , 1689834918 , 1689834943 
+    section benchmark-model (Jupytext task)
+    33.81s - OK : , 1689834921 , 1689834955 
+    section benchmark-model (Jupytext task)
+    33.13s - OK : , 1689834925 , 1689834958 
+    section summary (Jupytext task)
+    7.32s - OK : , 1689834958 , 1689834965 

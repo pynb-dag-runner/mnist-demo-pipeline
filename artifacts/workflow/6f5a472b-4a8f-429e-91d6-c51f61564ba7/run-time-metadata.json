@@ -1,0 +1,82 @@
+{
+  "span_id": "6f5a472b-4a8f-429e-91d6-c51f61564ba7",
+  "timing_start_iso8601": "2023-07-25T06:35:40.674572Z",
+  "timing_end_iso8601": "2023-07-25T06:36:43.871862Z",
+  "timing_duration_s": 63.197,
+  "task_dependencies": [
+    [
+      "0x556ac15d353ea822",
+      "0x27b1365d31ce4b6f"
+    ],
+    [
+      "0x2451ace4403aff24",
+      "0xe579d465d6a12c42"
+    ],
+    [
+      "0xe579d465d6a12c42",
+      "0xe9d40dbd00eeffdf"
+    ],
+    [
+      "0xe579d465d6a12c42",
+      "0x0ebad3703990de1a"
+    ],
+    [
+      "0xe9d40dbd00eeffdf",
+      "0x49296f4a16fbd628"
+    ],
+    [
+      "0xbca07ae4c6903055",
+      "0x017ed3d3019754ff"
+    ],
+    [
+      "0x2451ace4403aff24",
+      "0x4e710d6ae06eaaf9"
+    ],
+    [
+      "0x49296f4a16fbd628",
+      "0x017ed3d3019754ff"
+    ],
+    [
+      "0xd00e22fd175cbfa0",
+      "0xbca07ae4c6903055"
+    ],
+    [
+      "0xda95f06d49400c65",
+      "0x017ed3d3019754ff"
+    ],
+    [
+      "0xe579d465d6a12c42",
+      "0xd00e22fd175cbfa0"
+    ],
+    [
+      "0x27b1365d31ce4b6f",
+      "0x017ed3d3019754ff"
+    ],
+    [
+      "0xe579d465d6a12c42",
+      "0x556ac15d353ea822"
+    ],
+    [
+      "0x0ebad3703990de1a",
+      "0xda95f06d49400c65"
+    ]
+  ],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "6f5a472b-4a8f-429e-91d6-c51f61564ba7",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "workflow.github.run_id": "5653440012",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule"
+  }
+}

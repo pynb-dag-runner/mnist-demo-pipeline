@@ -1,0 +1,26 @@
+{
+  "inputs": [
+    {
+      "name": "float_input_8x8_image",
+      "shape": [
+        null,
+        64
+      ],
+      "type": "tensor(float)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "output_label",
+      "shape": [
+        null
+      ],
+      "type": "tensor(int64)"
+    },
+    {
+      "name": "output_probability",
+      "shape": [],
+      "type": "seq(map(int64,tensor(float)))"
+    }
+  ]
+}

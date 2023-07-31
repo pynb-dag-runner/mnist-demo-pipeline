@@ -1,0 +1,43 @@
+{
+  "span_id": "0x0889c41aa769c8a5",
+  "parent_span_id": "63906bd1-3e6e-4e1a-b589-c77c02e3bf95",
+  "task_id": "split_train_test",
+  "timing_start_iso8601": "2023-07-19T06:35:27.318350Z",
+  "timing_end_iso8601": "2023-07-19T06:35:29.658332Z",
+  "timing_duration_s": 2.34,
+  "is_success": true,
+  "exceptions": [],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "63906bd1-3e6e-4e1a-b589-c77c02e3bf95",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.run_id": "5595806328",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "task.id": "split_train_test",
+    "task.type": "python",
+    "task.num_cpus": 1,
+    "task.timeout_s": 30.0
+  },
+  "logged_values": {
+    "nr_digits_train": {
+      "type": "int",
+      "value": 1257
+    },
+    "nr_digits_test": {
+      "type": "int",
+      "value": 540
+    }
+  },
+  "logged_artifacts": []
+}

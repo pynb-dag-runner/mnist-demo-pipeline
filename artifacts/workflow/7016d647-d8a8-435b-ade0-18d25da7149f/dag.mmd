@@ -1,0 +1,30 @@
+graph LR
+    %% Mermaid input file for drawing task dependencies 
+    %% See https://mermaid-js.github.io/mermaid
+    %%
+    TASK_SPAN_ID_0x04df5ed9adeafcc6["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/ingest/runs/0x04df5ed9adeafcc6' style='text-decoration: none; color: black;'><b>ingest (Python task) 🔗</b> <br />task.id=ingest<br />task.num_cpus=1<br />task.timeout_s=30.0</a>"]
+    TASK_SPAN_ID_0x259ac7749df4b859["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/eda/runs/0x259ac7749df4b859' style='text-decoration: none; color: black;'><b>eda (Jupytext task) 🔗</b> <br />task.id=eda<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xfa3cf06ae1467af1["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/split_train_test/runs/0xfa3cf06ae1467af1' style='text-decoration: none; color: black;'><b>split_train_test (Python task) 🔗</b> <br />task.id=split_train_test<br />task.num_cpus=1<br />task.timeout_s=30.0</a>"]
+    TASK_SPAN_ID_0x93ba24503b8325b1["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/train_model/runs/0x93ba24503b8325b1' style='text-decoration: none; color: black;'><b>train_model (Python task) 🔗</b> <br />task.id=train_model<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xed57f7c9c5c2af6f["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/train_model/runs/0xed57f7c9c5c2af6f' style='text-decoration: none; color: black;'><b>train_model (Python task) 🔗</b> <br />task.id=train_model<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xbd27051641658f58["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/train_model/runs/0xbd27051641658f58' style='text-decoration: none; color: black;'><b>train_model (Python task) 🔗</b> <br />task.id=train_model<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0x6c7cda86ae063d36["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/train_model/runs/0x6c7cda86ae063d36' style='text-decoration: none; color: black;'><b>train_model (Python task) 🔗</b> <br />task.id=train_model<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0x39367a424d414237["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/benchmark-model/runs/0x39367a424d414237' style='text-decoration: none; color: black;'><b>benchmark-model (Jupytext task) 🔗</b> <br />task.id=benchmark-model<br />task.nr_train_images=600<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xad87a0fc60ea21e5["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/benchmark-model/runs/0xad87a0fc60ea21e5' style='text-decoration: none; color: black;'><b>benchmark-model (Jupytext task) 🔗</b> <br />task.id=benchmark-model<br />task.nr_train_images=800<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xd828f4b06c97c312["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/benchmark-model/runs/0xd828f4b06c97c312' style='text-decoration: none; color: black;'><b>benchmark-model (Jupytext task) 🔗</b> <br />task.id=benchmark-model<br />task.nr_train_images=1000<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0x088bb70861e2d6d6["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/benchmark-model/runs/0x088bb70861e2d6d6' style='text-decoration: none; color: black;'><b>benchmark-model (Jupytext task) 🔗</b> <br />task.id=benchmark-model<br />task.nr_train_images=1200<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xd3a733812f2abfae["<a href='https://composable-logs.github.io/mnist-digits-demo-pipeline/#/experiments/summary/runs/0xd3a733812f2abfae' style='text-decoration: none; color: black;'><b>summary (Jupytext task) 🔗</b> <br />task.id=summary<br />task.num_cpus=1<br />task.timeout_s=60.0</a>"]
+    TASK_SPAN_ID_0xfa3cf06ae1467af1 --> TASK_SPAN_ID_0x6c7cda86ae063d36
+    TASK_SPAN_ID_0xfa3cf06ae1467af1 --> TASK_SPAN_ID_0x93ba24503b8325b1
+    TASK_SPAN_ID_0xad87a0fc60ea21e5 --> TASK_SPAN_ID_0xd3a733812f2abfae
+    TASK_SPAN_ID_0x04df5ed9adeafcc6 --> TASK_SPAN_ID_0xfa3cf06ae1467af1
+    TASK_SPAN_ID_0x6c7cda86ae063d36 --> TASK_SPAN_ID_0xd828f4b06c97c312
+    TASK_SPAN_ID_0x93ba24503b8325b1 --> TASK_SPAN_ID_0x39367a424d414237
+    TASK_SPAN_ID_0xed57f7c9c5c2af6f --> TASK_SPAN_ID_0xad87a0fc60ea21e5
+    TASK_SPAN_ID_0xbd27051641658f58 --> TASK_SPAN_ID_0x088bb70861e2d6d6
+    TASK_SPAN_ID_0xd828f4b06c97c312 --> TASK_SPAN_ID_0xd3a733812f2abfae
+    TASK_SPAN_ID_0x088bb70861e2d6d6 --> TASK_SPAN_ID_0xd3a733812f2abfae
+    TASK_SPAN_ID_0xfa3cf06ae1467af1 --> TASK_SPAN_ID_0xbd27051641658f58
+    TASK_SPAN_ID_0xfa3cf06ae1467af1 --> TASK_SPAN_ID_0xed57f7c9c5c2af6f
+    TASK_SPAN_ID_0x39367a424d414237 --> TASK_SPAN_ID_0xd3a733812f2abfae
+    TASK_SPAN_ID_0x04df5ed9adeafcc6 --> TASK_SPAN_ID_0x259ac7749df4b859

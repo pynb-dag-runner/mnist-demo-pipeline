@@ -1,0 +1,119 @@
+{
+  "span_id": "0x26682e96e7db3147",
+  "parent_span_id": "7bbe7969-081f-4cb5-b8c8-2b7fa1af1305",
+  "task_id": "eda",
+  "timing_start_iso8601": "2023-07-24T06:36:18.700851Z",
+  "timing_end_iso8601": "2023-07-24T06:36:44.224344Z",
+  "timing_duration_s": 25.523,
+  "is_success": true,
+  "exceptions": [],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "7bbe7969-081f-4cb5-b8c8-2b7fa1af1305",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.run_id": "5641592951",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "task.id": "eda",
+    "task.type": "jupytext",
+    "task.num_cpus": 1,
+    "task.timeout_s": 60.0
+  },
+  "logged_values": {
+    "nr_digits": {
+      "type": "utf-8",
+      "value": "1797"
+    },
+    "pixels_per_digit": {
+      "type": "utf-8",
+      "value": "64"
+    }
+  },
+  "logged_artifacts": [
+    {
+      "name": "notebook.ipynb",
+      "type": "utf-8",
+      "length": 651093
+    },
+    {
+      "name": "notebook.html",
+      "type": "utf-8",
+      "length": 927081
+    },
+    {
+      "name": "counts_per_digit.txt",
+      "type": "bytes",
+      "length": 122
+    },
+    {
+      "name": "logged-images/samples_per_digit.png",
+      "type": "bytes",
+      "length": 29526
+    },
+    {
+      "name": "logged-images/pixel_value_counts.png",
+      "type": "bytes",
+      "length": 44631
+    },
+    {
+      "name": "logged-images/digits/0-images.png",
+      "type": "bytes",
+      "length": 58173
+    },
+    {
+      "name": "logged-images/digits/1-images.png",
+      "type": "bytes",
+      "length": 53104
+    },
+    {
+      "name": "logged-images/digits/2-images.png",
+      "type": "bytes",
+      "length": 56089
+    },
+    {
+      "name": "logged-images/digits/3-images.png",
+      "type": "bytes",
+      "length": 58842
+    },
+    {
+      "name": "logged-images/digits/4-images.png",
+      "type": "bytes",
+      "length": 56852
+    },
+    {
+      "name": "logged-images/digits/5-images.png",
+      "type": "bytes",
+      "length": 57622
+    },
+    {
+      "name": "logged-images/digits/6-images.png",
+      "type": "bytes",
+      "length": 56851
+    },
+    {
+      "name": "logged-images/digits/7-images.png",
+      "type": "bytes",
+      "length": 56411
+    },
+    {
+      "name": "logged-images/digits/8-images.png",
+      "type": "bytes",
+      "length": 57233
+    },
+    {
+      "name": "logged-images/digits/9-images.png",
+      "type": "bytes",
+      "length": 58619
+    }
+  ]
+}

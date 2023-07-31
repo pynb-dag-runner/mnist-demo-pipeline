@@ -1,0 +1,50 @@
+{
+  "span_id": "0x017ed3d3019754ff",
+  "parent_span_id": "6f5a472b-4a8f-429e-91d6-c51f61564ba7",
+  "task_id": "summary",
+  "timing_start_iso8601": "2023-07-25T06:36:37.247965Z",
+  "timing_end_iso8601": "2023-07-25T06:36:43.862677Z",
+  "timing_duration_s": 6.615,
+  "is_success": true,
+  "exceptions": [],
+  "attributes": {
+    "workflow.data_lake_root": "/pipeline-outputs/data-lake",
+    "workflow.run_environment": "ci",
+    "workflow.workflow_run_id": "6f5a472b-4a8f-429e-91d6-c51f61564ba7",
+    "workflow.github.repository": "composable-logs/mnist-digits-demo-pipeline",
+    "workflow.github.workflow": "Run automated tests, pipeline and deploy results to static reporting site",
+    "workflow.github.runner_name": "GitHub Actions 2",
+    "workflow.github.run_id": "5653440012",
+    "workflow.github.actor": "matiasdahl",
+    "workflow.github.job": "run-tests-pipeline-and-persist-pipeline-outputs",
+    "workflow.github.base_ref": "",
+    "workflow.github.head_ref": "",
+    "workflow.github.sha": "d39200a6f663237a75f89dcb4cfff12776736965",
+    "workflow.github.ref": "refs/heads/main",
+    "workflow.github.ref_type": "branch",
+    "workflow.github.ref_name": "main",
+    "workflow.github.event_name": "schedule",
+    "task.id": "summary",
+    "task.type": "jupytext",
+    "task.num_cpus": 1,
+    "task.timeout_s": 60.0
+  },
+  "logged_values": {},
+  "logged_artifacts": [
+    {
+      "name": "auc-roc-model-performances.png",
+      "type": "bytes",
+      "length": 55560
+    },
+    {
+      "name": "notebook.ipynb",
+      "type": "utf-8",
+      "length": 94689
+    },
+    {
+      "name": "notebook.html",
+      "type": "utf-8",
+      "length": 365555
+    }
+  ]
+}
