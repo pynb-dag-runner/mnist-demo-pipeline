@@ -21,6 +21,7 @@ clean:
 	@rm -rf pipeline-outputs/*
 	@touch pipeline-outputs/.gitkeep
 
+
 in-cicd-docker/test-and-run-pipeline: | clean
 	@# Single command to run all tests, run the pipeline and expand output into directory structure
 	cd docker; \
